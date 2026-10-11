@@ -289,44 +289,48 @@
             },
             "media": [
               {
-                "type": "video",
-                "src": "assets/hero/delhi_one.webm",
-                "alt": "Highlights from Times Internet Languages Live events in Delhi"
-              },
-              {
                 "type": "image",
-                "src": "https://static.langimg.com/photo/132278264.cms",
-                "alt": "Nivesh Baithak: Delhi Edition",
+                "src": "assets/hero/gathering-01.jpg",
+                "alt": "Grand Conclave Auditorium and Live Audience",
                 "watermark": {
-                  "eventName": "Nivesh Baithak: Delhi Edition",
-                  "dateText": "Sep 27, 2026"
+                  "eventName": "Times Internet Languages Live Summit",
+                  "dateText": "Grand Conclave"
                 }
               },
               {
                 "type": "image",
-                "src": "https://images.pexels.com/photos/6565255/pexels-photo-6565255.jpeg",
-                "alt": "VK Real Estate Awards & Summit",
+                "src": "assets/hero/gathering-02.jpg",
+                "alt": "Regional Industry Leaders & Tech Conclave",
+                "watermark": {
+                  "eventName": "India MSME Dialogue & Conclave",
+                  "dateText": "Regional Leadership Summit"
+                }
+              },
+              {
+                "type": "image",
+                "src": "assets/hero/gathering-03.jpg",
+                "alt": "Keynote Presentation at Packed Grand Convention",
+                "watermark": {
+                  "eventName": "Times Future of Maternity Conclave",
+                  "dateText": "Bengaluru Edition"
+                }
+              },
+              {
+                "type": "image",
+                "src": "assets/hero/gathering-04.jpg",
+                "alt": "VK Real Estate Awards & Summit Ceremony",
                 "watermark": {
                   "eventName": "VK Real Estate Awards & Summit",
-                  "dateText": "25 Sep, 2026"
+                  "dateText": "Bengaluru Conclave"
                 }
               },
               {
                 "type": "image",
-                "src": "https://static.langimg.com/photo/132710689.cms",
-                "alt": "Astro Mahasangam",
+                "src": "assets/hero/gathering-05.jpg",
+                "alt": "Investor Education & Vernacular Wealth Summit",
                 "watermark": {
-                  "eventName": "Astro Mahasangam",
-                  "dateText": "19 Sep, 2026"
-                }
-              },
-              {
-                "type": "image",
-                "src": "https://images.pexels.com/photos/7616700/pexels-photo-7616700.jpeg?auto=compress&cs=tinysrgb&w=1200",
-                "alt": "Times Study Abroad Conclave",
-                "watermark": {
-                  "eventName": "Times Study Abroad Conclave",
-                  "dateText": "Jul, 2026"
+                  "eventName": "Nivesh Baithak: Investor Summit",
+                  "dateText": "Delhi & Surat Conclaves"
                 }
               }
             ]
@@ -406,7 +410,36 @@
           "content": [
             "Built for India's diverse audiences, Times Internet Languages Live curates region-first events across healthcare, education, entertainment, lifestyle, and MSMEs. Each experience is designed for a regional audience, grounded in regional context, and focused on real decisions, business, careers, and growth.",
             "From focused gatherings to large-format summits, we bring together policymakers, industry leaders, and communities to exchange practical insight and create direct, high-value connections both on-ground and online."
-          ]
+          ],
+          "stats": {
+            "$comment": "PLACEHOLDER figures. Indicative scale only - replace each value with a verified number before launch.",
+            "items": [
+              {
+                "value": 25,
+                "suffix": "+",
+                "label": "Event editions",
+                "sub": "Delivered across 6 flagship IPs"
+              },
+              {
+                "value": 2.4,
+                "suffix": "L+",
+                "label": "People connected",
+                "sub": "On-ground footfall and live viewership"
+              },
+              {
+                "value": 180,
+                "suffix": "+",
+                "label": "Speakers on stage",
+                "sub": "Ministers, regulators and industry leaders"
+              },
+              {
+                "value": 11,
+                "suffix": "",
+                "label": "Indian languages",
+                "sub": "Across 20+ cities and every region"
+              }
+            ]
+          }
         }
       },
       {
@@ -740,19 +773,19 @@
               "variant": "featured",
               "people": [
                 {
-                  "photo": "assets/people/dignitary-01.svg",
+                  "photo": "assets/people/dignitary-01.jpg",
                   "name": "Dr. Rajesh Khanna",
                   "designation": "Hon'ble Minister of State",
                   "organization": "Ministry of MSME"
                 },
                 {
-                  "photo": "assets/people/dignitary-02.svg",
+                  "photo": "assets/people/dignitary-02.jpg",
                   "name": "Smt. Lakshmi Narayanan",
                   "designation": "Principal Secretary, Industries",
                   "organization": "State Government"
                 },
                 {
-                  "photo": "assets/people/dignitary-03.svg",
+                  "photo": "assets/people/dignitary-03.jpg",
                   "name": "Shri Arvind Deshmukh",
                   "designation": "Chairperson",
                   "organization": "Industry Development Authority"
@@ -765,49 +798,49 @@
               "variant": "grid",
               "people": [
                 {
-                  "photo": "assets/people/speaker-01.svg",
+                  "photo": "assets/people/speaker-01.jpg",
                   "name": "Riya Banerjee",
                   "designation": "Founder & CEO",
                   "organization": "Bharat Kirana Tech"
                 },
                 {
-                  "photo": "assets/people/speaker-02.svg",
+                  "photo": "assets/people/speaker-02.jpg",
                   "name": "Arjun Iyer",
                   "designation": "Chief Investment Officer",
                   "organization": "Sample Asset Management"
                 },
                 {
-                  "photo": "assets/people/speaker-03.svg",
+                  "photo": "assets/people/speaker-03.jpg",
                   "name": "Dr. Meenal Joshi",
                   "designation": "Senior Gynaecologist",
                   "organization": "Sample Women's Hospital"
                 },
                 {
-                  "photo": "assets/people/speaker-04.svg",
+                  "photo": "assets/people/speaker-04.jpg",
                   "name": "Karthik Gowda",
                   "designation": "Managing Director",
                   "organization": "Sample Realty"
                 },
                 {
-                  "photo": "assets/people/speaker-05.svg",
+                  "photo": "assets/people/speaker-05.jpg",
                   "name": "Sneha Desai",
                   "designation": "Certified Financial Planner",
                   "organization": "Independent"
                 },
                 {
-                  "photo": "assets/people/speaker-06.svg",
+                  "photo": "assets/people/speaker-06.jpg",
                   "name": "Imran Qureshi",
                   "designation": "Co-founder",
                   "organization": "Sample EdTech"
                 },
                 {
-                  "photo": "assets/people/speaker-07.svg",
+                  "photo": "assets/people/speaker-07.jpg",
                   "name": "Pooja Malhotra",
                   "designation": "Wellness Expert",
                   "organization": "Sample Wellness Studio"
                 },
                 {
-                  "photo": "assets/people/speaker-08.svg",
+                  "photo": "assets/people/speaker-08.jpg",
                   "name": "Vikram Chauhan",
                   "designation": "Director, Exports",
                   "organization": "Sample Exports Council"

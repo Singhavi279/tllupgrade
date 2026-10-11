@@ -1,4 +1,4 @@
-// Times Internet Languages Live v2 — config.json → native components. Pure ES modules, zero dependencies.
+// Times Internet Languages Live v2 - config.json -> native components. Pure ES modules, zero dependencies.
 import { $, $$, h, svg, icon, rich, litWords, rangoli, onMount, flushMount } from './lib/dom.js';
 import { tilt, initSpot, magnet, dragScroll, railArrows, marquee, ambient, intro, REDUCE } from './lib/fx.js';
 import { initForms, openForm, startSSO, handleSSOReturn } from './lib/forms.js';
@@ -84,12 +84,7 @@ const Components = {
     const canPlay = () => c.autoplay && !(c.respectReducedMotion && REDUCE) && visible && !hover;
     function schedule() { clearTimeout(timer); if (canPlay()) timer = setTimeout(() => go(idx + 1), dur); }
 
-    // Greeting that wipes through the scripts of India (native script, in the right font).
-    const gs = p.greetings ?? []; let gi = 0;
-    const word = g => h('span', { class: 'greet-word', lang: g.lang, style: { 'font-family': vFont(g.lang) } }, g.text);
-    const wordBox = gs.length && h('div', { class: 'greet-box' }, word(gs[0]));
-    const label = gs.length && h('span', { class: 'greet-label' }, h('i'), h('b', {}, `Hello in ${gs[0].label}`));
-    const gcap = gs.length && h('div', { class: 'greet', 'aria-hidden': 'true' }, wordBox, label);
+    const gs = p.greetings ?? [];
 
     const ups = events.filter(e => e.status === 'upcoming'), order = ev ? [ev, ...ups.filter(e => e !== ev)] : [];
     let ti = 0;
@@ -109,16 +104,19 @@ const Components = {
       h('div', { class: 'ticket-top' }, h('span', { class: 'live' }, h('i'), p.nextLabel ?? 'Next up'), order.length > 1 && tCount), tBody,
       order.length > 1 && h('div', { class: 'tdots' }, tDots));
 
+    // The strip greets in each script of India. Cities stay in config.json but are not shown here.
     const cityTrack = h('div', { class: 'mq-track', 'data-ambient': '' }), cityHost = h('div', { class: 'mq' }, cityTrack);
-    if (p.cities?.length) onMount(() => marquee(cityHost, cityTrack, () => h('div', { class: 'mq-set' }, p.cities.map(ct => h('span', { class: 'city' }, h('b', {}, ct.name), h('i', { lang: ct.lang, style: { 'font-family': vFont(ct.lang) } }, ct.native)))), { speed: 38 }));
+    const greetItem = g => h('span', { class: 'city city--greet' },
+      h('i', { lang: g.lang, style: { 'font-family': vFont(g.lang) } }, g.text), h('b', {}, `Hello in ${g.label}`));
+    if (gs.length) onMount(() => marquee(cityHost, cityTrack, () => h('div', { class: 'mq-set' }, gs.map(greetItem)), { speed: 38 }));
 
     const root = h('section', { class: 'hero', id: s.id, style: { '--dur': `${dur}ms` } },
       h('div', { class: 'hero-media' }, slides), h('div', { class: 'hero-scrim' }), h('div', { class: 'hero-grain' }),
       h('div', { class: 'hero-copy' },
-        h('img', { class: 'hero-logo', src: p.logo.src, alt: p.logo.alt, height: 72 }),
-        gcap, h('h1', {}, rich(p.tagline)), h('p', { class: 'lede' }, p.description),
+        h('img', { class: 'hero-logo', src: p.logo.src, alt: p.logo.alt, height: 132 }),
+        h('h1', {}, rich(p.tagline)), h('p', { class: 'lede' }, p.description),
         h('div', { class: 'hero-cta' }, cta(p.cta, 'btn btn--primary btn--lg'), p.secondaryCta && cta(p.secondaryCta, 'btn btn--glass btn--lg'))),
-      next, h('div', { class: 'pips' }, pips), p.cities?.length && h('div', { class: 'cities' }, cityHost));
+      next, h('div', { class: 'pips' }, pips), gs.length && h('div', { class: 'cities' }, cityHost));
 
     onMount(() => {
       $$('.btn--lg', root).forEach(b => magnet(b));
@@ -129,19 +127,36 @@ const Components = {
       }
       play(); schedule();
       if (order.length > 1 && !REDUCE) setInterval(() => { if (visible && !hover) show(ti + 1); }, 5000);
-      if (gs.length > 1 && !REDUCE) setInterval(() => {
-        if (!visible) return;
-        gi = (gi + 1) % gs.length; wordBox.replaceChildren(word(gs[gi])); label.lastChild.textContent = `Hello in ${gs[gi].label}`;
-      }, 2800);
     });
     return root;
   },
 
   AboutUs(s) {
-    const p = s.props, paras = [].concat(p.content);
+    const p = s.props, paras = [].concat(p.content), items = p.stats?.items ?? [];
+    // Numbers count up once, the first time the row scrolls into view.
+    const statCard = (x, i) => {
+      const dec = String(x.value).includes('.') ? 1 : 0;
+      const num = h('span', { class: 'stat-num' }, h('b', {}, x.value.toFixed ? x.value.toFixed(dec) : x.value), h('i', {}, x.suffix ?? ''));
+      const el = h('article', { class: 'stat reveal', style: { '--i': i } }, num, h('h3', {}, x.label), x.sub && h('p', {}, x.sub));
+      onMount(() => {
+        const out = num.firstChild;
+        if (REDUCE) return;
+        const io = new IntersectionObserver(([e]) => {
+          if (!e.isIntersecting) return; io.disconnect();
+          const t0 = performance.now(), ms = 1400;
+          const step = t => { const k = Math.min(1, (t - t0) / ms), e2 = 1 - Math.pow(1 - k, 3); out.textContent = (x.value * e2).toFixed(dec); if (k < 1) requestAnimationFrame(step); };
+          out.textContent = (0).toFixed(dec); requestAnimationFrame(step);
+        }, { threshold: .4 });
+        io.observe(el);
+      });
+      tilt(el, 4); return el;
+    };
     return section(s, 'about theme-light', toran(), rangoli({ rings: 6, petals: 10, className: 'about-r' }),
       h('div', { class: 'wrap about-grid' },
-        h('h2', { class: 'reveal' }, rich(p.heading)),
+        // The heading column is short and the copy column is long, so the numbers live under
+        // the heading and fill what was dead space beside the text.
+        h('div', { class: 'about-aside' }, h('h2', { class: 'reveal' }, rich(p.heading)),
+          items.length ? h('div', { class: 'stats' }, items.map(statCard)) : null),
         h('div', { class: 'about-body' }, h('p', { class: 'lit' }, litWords(paras[0])), paras.slice(1).map(t => h('p', { class: 'reveal' }, t)))));
   },
 
