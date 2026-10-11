@@ -302,6 +302,10 @@ async function boot() {
   try { CFG = await (await fetch('config.json', { cache: 'no-cache' })).json(); }
   catch (e) { app.replaceChildren(h('p', { class: 'boot' }, 'Unable to load content. Please refresh.')); return console.error(e); }
   initForms(CFG); applyTheme(CFG.global.theme);
+  // The loader covers the page while the sections below are being built.
+  const heroProps = CFG.page.sections.find(x => x.component === 'HeroCarousel')?.props;
+  const navProps = CFG.page.sections.find(x => x.component === 'Navbar')?.props;
+  intro(CFG.global.intro, heroProps?.logo ?? navProps?.logo ?? { src: '' }, heroProps?.greetings ?? [], vFont);
   const frag = document.createDocumentFragment();
   for (const s of CFG.page.sections) {
     if (s.enabled === false) continue;
@@ -319,8 +323,6 @@ async function boot() {
     $$('.reveal', app).forEach(el => io.observe(el));
     addEventListener('scroll', () => $('.nav-in')?.classList.toggle('solid', scrollY > 80), { passive: true });
   }
-  const nav = CFG.page.sections.find(x => x.component === 'Navbar');
-  intro(CFG.global.intro, nav?.props.logo ?? { src: '' });
   if (location.hash) document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView();
   handleSSOReturn();
 }

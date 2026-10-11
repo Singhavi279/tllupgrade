@@ -393,10 +393,25 @@
   .to-top-ring { position: absolute; inset: 0; width: 100%; height: 100%; rotate: -90deg; }
   .to-top-ring circle { fill: none; stroke: var(--c-saffron); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
 
-  /* =============== Intro curtain =============== */
-  .intro { position: fixed; inset: 0; z-index: 1000; display: grid; grid-template-columns: repeat(5, 1fr); pointer-events: none; }
-  .intro i { background: var(--k); animation: curtain 1s var(--ease-out) forwards; animation-delay: calc(.95s + var(--i) * 80ms); }
-  .intro img { position: absolute; inset: 0; margin: auto; height: clamp(90px, 16vw, 150px); width: auto; animation: introLogo 1.6s var(--ease-out) forwards; }
+  /* =============== Bloom loader =============== */
+  .is-loading, .is-loading body { overflow: hidden; }
+  .bloom { position: fixed; inset: 0; z-index: 1000; display: grid; place-content: center; justify-items: center; gap: clamp(1.4rem, 4vh, 3rem);
+    background: radial-gradient(120% 90% at 50% 40%, #241a12, #0b0806 70%); transition: opacity .7s var(--ease-out), scale .7s var(--ease-out); }
+  .bloom.is-out { opacity: 0; scale: 1.06; pointer-events: none; }
+  .bl-stage { position: relative; display: grid; place-items: center; width: min(78vmin, 560px); aspect-ratio: 1; }
+  .bl-stage::before { content: ''; position: absolute; inset: 22%; border-radius: 50%; animation: blRing 1.4s var(--ease-out) backwards;
+    background: radial-gradient(circle, color-mix(in oklab, var(--c-saffron) 34%, transparent), transparent 68%); filter: blur(14px); }
+  .bl-r { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--c-saffron); opacity: .52;
+    animation: spin 46s linear infinite, blRing 1.5s var(--ease-out) backwards; }
+  .bl-arm { position: absolute; inset: 0; animation: blArm .95s var(--ease-out) backwards; animation-delay: calc(.25s + var(--i) * 95ms); }
+  .bl-word { position: absolute; left: 50%; top: 50%; white-space: nowrap;
+    transform: translate(-50%, -50%) rotate(var(--a)) translateY(calc(-1 * var(--R, 36%))) rotate(calc(-1 * var(--a)));
+    font: 600 clamp(.92rem, 2.5vmin, 1.5rem)/1.6 var(--font-display);
+    background: linear-gradient(95deg, var(--c-haldi), var(--c-saffron) 60%, #ff7a59); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .bl-arm { --R: 30vmin; }
+  @media (min-width: 760px) { .bl-arm { --R: min(30vmin, 215px); } }
+  .bl-logo { position: relative; z-index: 1; width: auto; height: clamp(62px, 13vmin, 118px); filter: drop-shadow(0 10px 30px rgb(0 0 0 / .6)); animation: blLogo 1.1s var(--ease-out) backwards; }
+  .bl-cap { font: 700 .72rem/1 var(--font-body); letter-spacing: .26em; text-transform: uppercase; color: rgb(255 255 255 / .6); animation: blLogo 1.1s var(--ease-out) .9s backwards; }
 }
 
 @layer motion {
@@ -407,8 +422,9 @@
   @keyframes float { 50% { translate: 0 -10px; } }
   @keyframes drift { to { translate: 6vmax 4vmax; scale: 1.15; } }
   @keyframes pop { from { opacity: 0; translate: 0 24px; scale: .96; } }
-  @keyframes curtain { to { translate: 0 -101%; } }
-  @keyframes introLogo { 0% { opacity: 0; scale: .8; } 25%, 60% { opacity: 1; scale: 1; } 100% { opacity: 0; scale: 1.08; } }
+  @keyframes blArm { from { opacity: 0; scale: .12; } 55% { opacity: 1; } }
+  @keyframes blRing { from { opacity: 0; scale: .3; rotate: -40deg; } }
+  @keyframes blLogo { from { opacity: 0; scale: .62; } }
   @keyframes spin { to { rotate: 360deg; } }
   @keyframes reveal { from { opacity: 0; translate: 0 56px; scale: .97; } to { opacity: 1; translate: 0 0; scale: 1; } }
   @keyframes grow { to { scale: 1 1; } }
@@ -450,7 +466,7 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
     .reveal, .lit .w { opacity: 1 !important; translate: none !important; }
-    .mq { overflow-x: auto; } .intro { display: none; }
+    .mq { overflow-x: auto; } .bloom { display: none; }
     .to-top { opacity: 1; }
   }
 }

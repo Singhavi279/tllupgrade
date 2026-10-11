@@ -137,9 +137,9 @@
       "consentText": "By continuing, I agree to receive event updates and marketing emails from Times Internet. I can unsubscribe anytime."
     },
     "intro": {
-      "$comment": "Curtain animation on first load. oncePerSession:true plays it once per browser session.",
+      "$comment": "Full-screen bloom loader (logo + rangoli + greetings) on load. oncePerSession:true plays it once per browser session (flag in sessionStorage); false replays on every load.",
       "enabled": true,
-      "oncePerSession": true
+      "oncePerSession": false
     }
   },
   "page": {

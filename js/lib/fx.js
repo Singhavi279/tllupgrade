@@ -1,5 +1,5 @@
 // Interaction effects. Pointer-driven values are written as CSS variables; all motion itself lives in CSS.
-import { h, icon, $$ } from './dom.js';
+import { h, icon, $$, rangoli } from './dom.js';
 
 export const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -84,11 +84,26 @@ export function ambient(root = document) {
   $$('[data-ambient]', root).forEach(el => io.observe(el));
 }
 
-/** One-time curtain intro: five regional-colour panels lift away over the already-rendered page. */
-export function intro(cfg, logo) {
+/**
+ * Full-screen loader: the logo sits in the centre, a rangoli blooms out of it and one greeting
+ * rides each petal. `fonts` maps a language tag to its font stack so each script renders correctly.
+ */
+export function intro(cfg, logo, greetings = [], fonts = () => null) {
   if (!cfg?.enabled || REDUCE) return;
   try { if (cfg.oncePerSession) { if (sessionStorage.getItem('tll-intro')) return; sessionStorage.setItem('tll-intro', '1'); } } catch {}
-  const colors = ['saffron', 'haldi', 'peacock', 'indigo', 'kumkum'];
-  const el = h('div', { class: 'intro', 'aria-hidden': 'true' }, colors.map((c, i) => h('i', { style: { '--k': `var(--c-${c})`, '--i': i } })), h('img', { src: logo.src, alt: '', height: 120 }));
-  document.body.append(el); setTimeout(() => el.remove(), 2400);
+  const gs = greetings.length ? greetings : [{ text: 'नमस्ते', lang: 'hi', label: 'Hindi' }];
+  const step = 360 / gs.length;
+  // Each arm is rotated to its own angle and scaled out of the centre; the word counter-rotates so it stays upright.
+  const arm = (g, i) => h('div', { class: 'bl-arm', style: { '--a': `${step * i}deg`, '--i': i } },
+    h('span', { class: 'bl-word', lang: g.lang, style: { 'font-family': fonts(g.lang) } }, g.text));
+  const el = h('div', { class: 'bloom', role: 'status', 'aria-label': 'Loading Times Internet Languages Live' },
+    h('div', { class: 'bl-stage' },
+      rangoli({ rings: 4, petals: gs.length, className: 'bl-r' }),
+      gs.map(arm),
+      h('img', { class: 'bl-logo', src: logo.src, alt: '', height: 120 })),
+    h('p', { class: 'bl-cap' }, 'Many languages. One stage.'));
+  document.documentElement.classList.add('is-loading');
+  document.body.append(el);
+  setTimeout(() => el.classList.add('is-out'), 2300);
+  setTimeout(() => { el.remove(); document.documentElement.classList.remove('is-loading'); }, 3000);
 }
