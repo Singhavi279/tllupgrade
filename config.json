@@ -454,14 +454,12 @@
               "status": "upcoming",
               "kicker": "What's next",
               "title": "Upcoming Events",
-              "countLabel": "on the calendar",
               "layout": "bento"
             },
             {
               "status": "past",
               "kicker": "A look back",
               "title": "Past Events",
-              "countLabel": "completed",
               "layout": "rail"
             }
           ],
