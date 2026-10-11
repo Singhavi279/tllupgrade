@@ -139,7 +139,28 @@
     "intro": {
       "$comment": "Full-screen bloom loader (logo + rangoli + greetings) on load. oncePerSession:true plays it once per browser session (flag in sessionStorage); false replays on every load.",
       "enabled": true,
-      "oncePerSession": false
+      "oncePerSession": false,
+      "ariaLabel": "Loading Times Internet Languages Live",
+      "caption": "Many languages. One stage."
+    },
+    "ui": {
+      "$comment": "Strings the components generate themselves (labels, aria text, form status). {n} and {language} are substituted at render time. Every key is optional; js/lib/ui.js holds the fallback.",
+      "menuLabel": "Menu",
+      "menuOpen": "Open menu",
+      "menuClose": "Close menu",
+      "slideLabel": "Show slide {n}",
+      "eventSlideLabel": "Show event {n}",
+      "upcomingEventsLabel": "Upcoming events",
+      "nextUpLabel": "Next up",
+      "greetingLabel": "Hello in {language}",
+      "scrollLeft": "Scroll left",
+      "scrollRight": "Scroll right",
+      "backToTop": "Back to top",
+      "loadError": "Unable to load content. Please refresh.",
+      "formSelect": "Select…",
+      "formSending": "Sending…",
+      "formError": "Could not submit right now. Please try again shortly.",
+      "ssoError": "Signed in, but we could not complete subscription. Please retry."
     }
   },
   "page": {
@@ -150,9 +171,11 @@
         "enabled": true,
         "props": {
           "logo": {
-            "src": "https://timeslanguages.in/assets/timeslang/assets/langlive.png",
+            "src": "assets/brand/langlive.webp",
             "alt": "Times Internet Languages Live",
-            "href": "#top"
+            "href": "#top",
+            "width": 517,
+            "height": 323
           },
           "items": [
             {
@@ -216,8 +239,10 @@
         "enabled": true,
         "props": {
           "logo": {
-            "src": "https://timeslanguages.in/assets/timeslang/assets/langlive.png",
-            "alt": "Times Internet Languages Live"
+            "src": "assets/brand/langlive.webp",
+            "alt": "Times Internet Languages Live",
+            "width": 517,
+            "height": 323
           },
           "greetings": [
             {
@@ -290,50 +315,71 @@
             "media": [
               {
                 "type": "image",
-                "src": "assets/hero/gathering-01.jpg",
+                "src": "assets/hero/gathering-01.webp",
                 "alt": "Grand Conclave Auditorium and Live Audience",
                 "watermark": {
                   "eventName": "Times Internet Languages Live Summit",
                   "dateText": "Grand Conclave"
-                }
+                },
+                "srcset": "assets/hero/gathering-01-sm.webp 960w, assets/hero/gathering-01.webp 1600w",
+                "sizes": "100vw",
+                "width": 1600,
+                "height": 900
               },
               {
                 "type": "image",
-                "src": "assets/hero/gathering-02.jpg",
+                "src": "assets/hero/gathering-02.webp",
                 "alt": "Regional Industry Leaders & Tech Conclave",
                 "watermark": {
                   "eventName": "India MSME Dialogue & Conclave",
                   "dateText": "Regional Leadership Summit"
-                }
+                },
+                "srcset": "assets/hero/gathering-02-sm.webp 960w, assets/hero/gathering-02.webp 1600w",
+                "sizes": "100vw",
+                "width": 1600,
+                "height": 900
               },
               {
                 "type": "image",
-                "src": "assets/hero/gathering-03.jpg",
+                "src": "assets/hero/gathering-03.webp",
                 "alt": "Keynote Presentation at Packed Grand Convention",
                 "watermark": {
                   "eventName": "Times Future of Maternity Conclave",
                   "dateText": "Bengaluru Edition"
-                }
+                },
+                "srcset": "assets/hero/gathering-03-sm.webp 960w, assets/hero/gathering-03.webp 1600w",
+                "sizes": "100vw",
+                "width": 1600,
+                "height": 900
               },
               {
                 "type": "image",
-                "src": "assets/hero/gathering-04.jpg",
+                "src": "assets/hero/gathering-04.webp",
                 "alt": "VK Real Estate Awards & Summit Ceremony",
                 "watermark": {
                   "eventName": "VK Real Estate Awards & Summit",
                   "dateText": "Bengaluru Conclave"
-                }
+                },
+                "srcset": "assets/hero/gathering-04-sm.webp 960w, assets/hero/gathering-04.webp 1600w",
+                "sizes": "100vw",
+                "width": 1600,
+                "height": 900
               },
               {
                 "type": "image",
-                "src": "assets/hero/gathering-05.jpg",
+                "src": "assets/hero/gathering-05.webp",
                 "alt": "Investor Education & Vernacular Wealth Summit",
                 "watermark": {
                   "eventName": "Nivesh Baithak: Investor Summit",
                   "dateText": "Delhi & Surat Conclaves"
-                }
+                },
+                "srcset": "assets/hero/gathering-05-sm.webp 960w, assets/hero/gathering-05.webp 1600w",
+                "sizes": "100vw",
+                "width": 1600,
+                "height": 900
               }
-            ]
+            ],
+            "$comment": "Slide 1 is the LCP image: scripts/build-seo.mjs preloads it and renders it eagerly. srcset/sizes/width/height are optional per slide."
           },
           "featuredEventId": "tfm-bengaluru",
           "nextLabel": "Next up",
@@ -771,19 +817,19 @@
               "variant": "featured",
               "people": [
                 {
-                  "photo": "assets/people/dignitary-01.jpg",
+                  "photo": "assets/people/dignitary-01.webp",
                   "name": "Dr. Rajesh Khanna",
                   "designation": "Hon'ble Minister of State",
                   "organization": "Ministry of MSME"
                 },
                 {
-                  "photo": "assets/people/dignitary-02.jpg",
+                  "photo": "assets/people/dignitary-02.webp",
                   "name": "Smt. Lakshmi Narayanan",
                   "designation": "Principal Secretary, Industries",
                   "organization": "State Government"
                 },
                 {
-                  "photo": "assets/people/dignitary-03.jpg",
+                  "photo": "assets/people/dignitary-03.webp",
                   "name": "Shri Arvind Deshmukh",
                   "designation": "Chairperson",
                   "organization": "Industry Development Authority"
@@ -796,49 +842,49 @@
               "variant": "grid",
               "people": [
                 {
-                  "photo": "assets/people/speaker-01.jpg",
+                  "photo": "assets/people/speaker-01.webp",
                   "name": "Riya Banerjee",
                   "designation": "Founder & CEO",
                   "organization": "Bharat Kirana Tech"
                 },
                 {
-                  "photo": "assets/people/speaker-02.jpg",
+                  "photo": "assets/people/speaker-02.webp",
                   "name": "Arjun Iyer",
                   "designation": "Chief Investment Officer",
                   "organization": "Sample Asset Management"
                 },
                 {
-                  "photo": "assets/people/speaker-03.jpg",
+                  "photo": "assets/people/speaker-03.webp",
                   "name": "Dr. Meenal Joshi",
                   "designation": "Senior Gynaecologist",
                   "organization": "Sample Women's Hospital"
                 },
                 {
-                  "photo": "assets/people/speaker-04.jpg",
+                  "photo": "assets/people/speaker-04.webp",
                   "name": "Karthik Gowda",
                   "designation": "Managing Director",
                   "organization": "Sample Realty"
                 },
                 {
-                  "photo": "assets/people/speaker-05.jpg",
+                  "photo": "assets/people/speaker-05.webp",
                   "name": "Sneha Desai",
                   "designation": "Certified Financial Planner",
                   "organization": "Independent"
                 },
                 {
-                  "photo": "assets/people/speaker-06.jpg",
+                  "photo": "assets/people/speaker-06.webp",
                   "name": "Imran Qureshi",
                   "designation": "Co-founder",
                   "organization": "Sample EdTech"
                 },
                 {
-                  "photo": "assets/people/speaker-07.jpg",
+                  "photo": "assets/people/speaker-07.webp",
                   "name": "Pooja Malhotra",
                   "designation": "Wellness Expert",
                   "organization": "Sample Wellness Studio"
                 },
                 {
-                  "photo": "assets/people/speaker-08.jpg",
+                  "photo": "assets/people/speaker-08.webp",
                   "name": "Vikram Chauhan",
                   "designation": "Director, Exports",
                   "organization": "Sample Exports Council"
@@ -1016,7 +1062,7 @@
             {
               "order": 4,
               "question": "How can brands partner with Times Internet Languages Live?",
-              "answer": "We offer tailored formats - from speaking slots and title sponsorships to integrated regional campaigns. Write to gaurav.vats@timesinternet.in for the partnership deck."
+              "answer": "We offer tailored formats - from speaking slots and title sponsorships to integrated regional campaigns. Write to deepika.pawar@timesinternet.in for the partnership deck."
             },
             {
               "order": 5,
@@ -1059,6 +1105,13 @@
               "icon": "chat"
             },
             {
+              "category": "Partnership",
+              "name": "Deepika Pawar",
+              "phone": "+91 9971129087",
+              "email": "deepika.pawar@timesinternet.in",
+              "icon": "handshake"
+            },
+            {
               "category": "Award Nominations",
               "name": "Sagun Kumari",
               "phone": "+91 9304412377",
@@ -1088,9 +1141,11 @@
         "enabled": true,
         "props": {
           "logo": {
-            "src": "https://timeslanguages.in/assets/timeslang/assets/langlive.png",
+            "src": "assets/brand/langlive.webp",
             "alt": "Times Internet Languages Live",
-            "href": "#top"
+            "href": "#top",
+            "width": 517,
+            "height": 323
           },
           "description": "Region-first events across healthcare, education, entertainment & lifestyle, and MSMEs - bringing policymakers, industry leaders, and communities together for real outcomes.",
           "socials": [

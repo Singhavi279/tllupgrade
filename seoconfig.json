@@ -11,8 +11,9 @@
     ],
     "themeColor": "#f7f5ef",
     "googleSiteVerification": "JYn_NFaOSK9Z4vPZe4n6l-aLTP_zoMrbmOEaUKy0l7o",
-    "favicon": "assets/brand/langlive.png",
-    "author": "Times Internet"
+    "favicon": "assets/brand/icon-64.png",
+    "author": "Times Internet",
+    "appleTouchIcon": "assets/brand/icon-180.png"
   },
   "defaults": {
     "title": "Times Internet Languages Live Events | India's Premium Vernacular Event Portfolio",
@@ -38,7 +39,8 @@
       "imageAlt": "Times Internet Languages Live - India's Premium Event Portfolio",
       "imageWidth": 1200,
       "imageHeight": 630,
-      "description": "A premium portfolio of education, healthcare, lifestyle & entertainment and partnership-led events from Times Internet - built for India's vernacular-first audiences."
+      "description": "A premium portfolio of education, healthcare, lifestyle & entertainment and partnership-led events from Times Internet - built for India's vernacular-first audiences.",
+      "imageType": "image/jpeg"
     },
     "twitter": {
       "card": "summary_large_image",
@@ -158,7 +160,7 @@
       "Audiences: brands and policymakers who sponsor or partner on regional event IPs; everyday Indians who attend, learn and register for summits.",
       "Cities: Delhi, Mumbai, Pune, Jaipur, Bhopal, Patna, Lucknow, Chennai, Ahmedabad, Hyderabad, Bengaluru, Surat.",
       "Languages: Hindi, English, Hinglish and regional languages.",
-      "Partnerships: write to gaurav.vats@timesinternet.in or use https://timeslanguages.in/#partners"
+      "Partnerships: write to deepika.pawar@timesinternet.in or use https://timeslanguages.in/#partners"
     ],
     "sections": [
       {
@@ -192,6 +194,14 @@
             "description": "Contacts for general queries, award nominations, speaking and sponsorships."
           }
         ]
+      },
+      {
+        "heading": "Frequently Asked Questions",
+        "includeFaq": true
+      },
+      {
+        "heading": "Contact",
+        "includeContacts": true
       }
     ]
   },
@@ -222,7 +232,7 @@
         {
           "@type": "ContactPoint",
           "contactType": "sales",
-          "email": "gaurav.vats@timesinternet.in",
+          "email": "deepika.pawar@timesinternet.in",
           "areaServed": "IN",
           "availableLanguage": [
             "English",
@@ -232,6 +242,28 @@
       ]
     },
     "emitEventSchema": true,
-    "emitFaqSchema": true
+    "emitFaqSchema": true,
+    "$comment": "Each emit* flag adds one JSON-LD block to index.html. speakableSelectors marks the passages voice/answer engines may read aloud.",
+    "emitWebsiteSchema": true,
+    "emitWebPageSchema": true,
+    "emitItemListSchema": true,
+    "emitBreadcrumbSchema": true,
+    "speakableSelectors": [
+      ".hero h1",
+      ".hero .lede",
+      ".about-body p"
+    ]
+  },
+  "performance": {
+    "$comment": "Critical-path settings applied by scripts/build-seo.mjs. inlineCss removes the render-blocking stylesheet request; preloadLcpImage preloads the first hero slide; prerender writes static markup into #app so first paint does not wait on JS.",
+    "inlineCss": true,
+    "preloadLcpImage": true,
+    "prerender": true,
+    "preconnect": [
+      "https://fonts.googleapis.com",
+      "https://fonts.gstatic.com",
+      "https://static.langimg.com",
+      "https://images.pexels.com"
+    ]
   }
 }

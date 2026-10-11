@@ -39,6 +39,8 @@
 @layer base {
   html { scroll-behavior: smooth; scroll-padding-top: 6.5rem; interpolate-size: allow-keywords; background: var(--c-ink); }
   body { font: 400 1rem/1.6 var(--font-body); color: var(--text); background: var(--c-ink); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  /* Matches the fallback face's x-height to Inter's, so the swap barely moves anything. */
+  @supports (font-size-adjust: ex-height 0.5) { body { font-size-adjust: ex-height 0.545; } }
   body.nav-open { overflow: hidden; }
   h1, h2, h3 { font-family: var(--font-display); font-weight: 800; line-height: 1.04; letter-spacing: -.025em; text-wrap: balance; }
   h2 { font-size: clamp(2.3rem, 5.4vw, 4.7rem); }
@@ -201,7 +203,7 @@
   .wm span { opacity: .8; }
   .wm--bottom-right { right: var(--pad); bottom: 4.9rem; text-align: right; border-left: 0; border-right: 3px solid var(--c-saffron); }
   .wm--bottom-left { left: calc(var(--pad) + 16rem); bottom: 4.9rem; } .wm--top-left { left: var(--pad); top: 10.6rem; } .wm--top-right { right: var(--pad); top: 10.6rem; }
-  .cities { position: absolute; z-index: 5; inset: auto 0 0; border-top: 1px solid rgb(255 255 255 / .18); background: rgb(10 8 6 / .45); backdrop-filter: blur(12px); padding-block: .85rem; }
+  .cities { position: absolute; z-index: 5; inset: auto 0 0; height: 4.1rem; display: grid; align-content: center; overflow: clip; border-top: 1px solid rgb(255 255 255 / .18); background: rgb(10 8 6 / .45); backdrop-filter: blur(12px); }
   .cities .mq { --mq-gap: 2.4rem; mask-image: none; }
   .city { display: inline-flex; align-items: baseline; gap: .7rem; font: 700 .85rem/1.75 var(--font-display); letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
   .city i { font-style: normal; font-weight: 600; letter-spacing: .02em; text-transform: none; font-size: 1.02rem; line-height: 1.75; color: var(--c-haldi); }

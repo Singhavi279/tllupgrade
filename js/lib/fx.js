@@ -1,5 +1,6 @@
 // Interaction effects. Pointer-driven values are written as CSS variables; all motion itself lives in CSS.
 import { h, icon, $$, rangoli } from './dom.js';
+import { t } from './ui.js';
 
 export const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -57,8 +58,8 @@ export function dragScroll(rail) {
 export function railArrows(rail) {
   const step = dir => rail.scrollBy({ left: dir * Math.max(280, rail.clientWidth * .75), behavior: REDUCE ? 'auto' : 'smooth' });
   return h('div', { class: 'arrows' },
-    h('button', { class: 'arrow arrow--prev', type: 'button', 'aria-label': 'Scroll left', onclick: () => step(-1) }, icon('arrow', 18)),
-    h('button', { class: 'arrow', type: 'button', 'aria-label': 'Scroll right', onclick: () => step(1) }, icon('arrow', 18)));
+    h('button', { class: 'arrow arrow--prev', type: 'button', 'aria-label': t('scrollLeft'), onclick: () => step(-1) }, icon('arrow', 18)),
+    h('button', { class: 'arrow', type: 'button', 'aria-label': t('scrollRight'), onclick: () => step(1) }, icon('arrow', 18)));
 }
 
 /**
@@ -96,12 +97,12 @@ export function intro(cfg, logo, greetings = [], fonts = () => null) {
   // Each arm is rotated to its own angle and scaled out of the centre; the word counter-rotates so it stays upright.
   const arm = (g, i) => h('div', { class: 'bl-arm', style: { '--a': `${step * i}deg`, '--i': i } },
     h('span', { class: 'bl-word', lang: g.lang, style: { 'font-family': fonts(g.lang) } }, g.text));
-  const el = h('div', { class: 'bloom', role: 'status', 'aria-label': 'Loading Times Internet Languages Live' },
+  const el = h('div', { class: 'bloom', role: 'status', 'aria-label': cfg.ariaLabel ?? 'Loading' },
     h('div', { class: 'bl-stage' },
       rangoli({ rings: 4, petals: gs.length, className: 'bl-r' }),
       gs.map(arm),
       h('img', { class: 'bl-logo', src: logo.src, alt: '', height: 120 })),
-    h('p', { class: 'bl-cap' }, 'Many languages. One stage.'));
+    cfg.caption && h('p', { class: 'bl-cap' }, cfg.caption));
   document.documentElement.classList.add('is-loading');
   document.body.append(el);
   setTimeout(() => el.classList.add('is-out'), 2300);

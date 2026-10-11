@@ -2,6 +2,7 @@
 import { $, $$, h, svg, icon, rich, litWords, rangoli, onMount, flushMount } from './lib/dom.js';
 import { tilt, initSpot, magnet, dragScroll, railArrows, marquee, ambient, intro, REDUCE } from './lib/fx.js';
 import { initForms, openForm, startSSO, handleSSOReturn } from './lib/forms.js';
+import { setStrings, t } from './lib/ui.js';
 
 let CFG;
 const byOrder = (a, b) => (a.order ?? 0) - (b.order ?? 0);
@@ -35,6 +36,9 @@ const sectionHead = (p, extra, cls = '') => h('header', { class: `sec-head revea
   p.subheading && h('p', { class: 'eyebrow' }, p.subheading), h('h2', {}, rich(p.heading)), p.description && h('p', { class: 'lede' }, p.description), extra);
 const section = (s, cls, ...kids) => h('section', { id: s.id, class: `sec ${cls} ${s.theme ? `theme-${s.theme}` : ''}`.trim() }, ...kids);
 const toran = () => h('div', { class: 'toran', 'aria-hidden': 'true' });
+/** Logo <img> sized in both axes from config.json, so it reserves its box before the file lands. */
+const logoImg = (lg, height, extra = {}) => h('img', { src: lg.src, alt: lg.alt, height,
+  width: lg.width && lg.height ? Math.round((height * lg.width) / lg.height) : null, ...extra });
 const lazyImg = (src, alt, extra = {}) => h('img', { src, alt, loading: 'lazy', decoding: 'async', draggable: 'false', referrerpolicy: 'no-referrer', ...extra });
 
 // ---------- component registry: JSON "component" name → function returning a DOM node ----------
@@ -42,14 +46,14 @@ const Components = {
   Navbar(s) {
     const p = s.props;
     const links = cls => p.items.map(i => h('li', {}, h('a', { href: i.href, class: i.variant === 'cta' ? `btn btn--primary btn--sm ${cls}` : null }, i.label)));
-    const sheet = h('nav', { class: 'sheet', id: 'nav-sheet', 'aria-label': 'Menu' }, h('ul', {}, p.items.map(i => h('li', {}, h('a', { href: i.href }, i.label)))));
-    const burger = h('button', { class: 'burger', type: 'button', 'aria-label': 'Open menu', 'aria-expanded': 'false', 'aria-controls': 'nav-sheet' }, h('span'), h('span'));
-    const setOpen = o => { sheet.classList.toggle('open', o); burger.setAttribute('aria-expanded', o); burger.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); document.body.classList.toggle('nav-open', o); };
+    const sheet = h('nav', { class: 'sheet', id: 'nav-sheet', 'aria-label': t('menuLabel') }, h('ul', {}, p.items.map(i => h('li', {}, h('a', { href: i.href }, i.label)))));
+    const burger = h('button', { class: 'burger', type: 'button', 'aria-label': t('menuOpen'), 'aria-expanded': 'false', 'aria-controls': 'nav-sheet' }, h('span'), h('span'));
+    const setOpen = o => { sheet.classList.toggle('open', o); burger.setAttribute('aria-expanded', o); burger.setAttribute('aria-label', o ? t('menuClose') : t('menuOpen')); document.body.classList.toggle('nav-open', o); };
     burger.addEventListener('click', () => setOpen(!sheet.classList.contains('open')));
     sheet.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
     addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
     return h('header', { class: 'nav', id: s.id },
-      h('div', { class: 'nav-in' }, h('a', { href: p.logo.href, class: 'nav-logo', 'aria-label': p.logo.alt }, h('img', { src: p.logo.src, alt: p.logo.alt, height: 54 })), h('ul', { class: 'nav-links' }, links('')), burger), sheet);
+      h('div', { class: 'nav-in' }, h('a', { href: p.logo.href, class: 'nav-logo', 'aria-label': p.logo.alt }, logoImg(p.logo, 54, { fetchpriority: 'high' })), h('ul', { class: 'nav-links' }, links('')), burger), sheet);
   },
 
   TrendingTicker(s) {
@@ -71,11 +75,19 @@ const Components = {
     const slides = c.media.map((m, i) => h('figure', { class: 'slide' + (i ? '' : ' on'), 'aria-hidden': i ? 'true' : 'false' },
       m.type === 'video'
         ? h('video', { src: m.src, poster: m.poster, muted: true, loop: true, playsinline: true, preload: i ? 'none' : 'metadata', 'aria-label': m.alt })
-        : h('img', { src: m.src, alt: m.alt, loading: i ? 'lazy' : 'eager', fetchpriority: i ? null : 'high', referrerpolicy: 'no-referrer' }), wm(m)));
-    const pips = c.media.map((_, i) => h('button', { class: 'pip' + (i ? '' : ' on'), type: 'button', 'aria-label': `Show slide ${i + 1}`, onclick: () => go(i) }, h('span', { class: 'bar' })));
+        : h('img', { src: i ? null : m.src, 'data-src': i ? m.src : null, srcset: i ? null : m.srcset, 'data-srcset': i ? m.srcset : null,
+            sizes: m.sizes, width: m.width, height: m.height, alt: m.alt, decoding: i ? 'async' : 'sync', loading: 'eager',
+            fetchpriority: i ? 'low' : 'high', referrerpolicy: 'no-referrer' }), wm(m)));
+
+    // Slides 2..n only start downloading once the browser is idle, so the hero image owns the early bandwidth.
+    const hydrateSlides = () => slides.forEach(f => { const im = f.querySelector('img[data-src]'); if (!im) return;
+      if (im.dataset.srcset) im.srcset = im.dataset.srcset; im.src = im.dataset.src; delete im.dataset.src; delete im.dataset.srcset; });
+    const pips = c.media.map((_, i) => h('button', { class: 'pip' + (i ? '' : ' on'), type: 'button', 'aria-label': t('slideLabel', { n: i + 1 }), onclick: () => go(i) }, h('span', { class: 'bar' })));
 
     const play = () => slides[idx].querySelector('video')?.play().catch(() => {});
+    onMount(() => (window.requestIdleCallback ?? (f => setTimeout(f, 1200)))(hydrateSlides, { timeout: 3000 }));
     function go(n) {
+      hydrateSlides();
       slides[idx].classList.remove('on'); slides[idx].setAttribute('aria-hidden', 'true'); slides[idx].querySelector('video')?.pause(); pips[idx].classList.remove('on');
       idx = (n + slides.length) % slides.length;
       slides[idx].classList.add('on'); slides[idx].setAttribute('aria-hidden', 'false'); play();
@@ -92,7 +104,7 @@ const Components = {
     const fill = e => tBody.replaceChildren(h('p', { class: 'ticket-name' }, e.name),
       h('ul', { class: 'ticket-meta' }, h('li', {}, icon('calendar', 16), e.dateText), h('li', {}, icon('pin', 16), e.venue)),
       cta(e.cta, 'btn btn--light btn--sm', 'hero-' + e.id));
-    const tDots = order.map((_, i) => h('button', { class: 'tdot' + (i ? '' : ' on'), type: 'button', 'aria-label': `Show event ${i + 1}`, onclick: () => show(i) }));
+    const tDots = order.map((_, i) => h('button', { class: 'tdot' + (i ? '' : ' on'), type: 'button', 'aria-label': t('eventSlideLabel', { n: i + 1 }), onclick: () => show(i) }));
     const tCount = h('span', { class: 'tcount' }, `01 / ${String(order.length).padStart(2, '0')}`);
     function show(n) {
       ti = (n + order.length) % order.length; tDots.forEach((d, i) => d.classList.toggle('on', i === ti));
@@ -100,20 +112,20 @@ const Components = {
       tBody.classList.remove('swap'); void tBody.offsetWidth; fill(order[ti]); tBody.classList.add('swap');
     }
     if (order.length) fill(order[0]);
-    const next = order.length && h('aside', { class: 'hero-ticket', 'aria-label': 'Upcoming events' },
-      h('div', { class: 'ticket-top' }, h('span', { class: 'live' }, h('i'), p.nextLabel ?? 'Next up'), order.length > 1 && tCount), tBody,
+    const next = order.length && h('aside', { class: 'hero-ticket', 'aria-label': t('upcomingEventsLabel') },
+      h('div', { class: 'ticket-top' }, h('span', { class: 'live' }, h('i'), p.nextLabel ?? t('nextUpLabel')), order.length > 1 && tCount), tBody,
       order.length > 1 && h('div', { class: 'tdots' }, tDots));
 
     // The strip greets in each script of India. Cities stay in config.json but are not shown here.
     const cityTrack = h('div', { class: 'mq-track', 'data-ambient': '' }), cityHost = h('div', { class: 'mq' }, cityTrack);
     const greetItem = g => h('span', { class: 'city city--greet' },
-      h('i', { lang: g.lang, style: { 'font-family': vFont(g.lang) } }, g.text), h('b', {}, `Hello in ${g.label}`));
+      h('i', { lang: g.lang, style: { 'font-family': vFont(g.lang) } }, g.text), h('b', {}, t('greetingLabel', { language: g.label })));
     if (gs.length) onMount(() => marquee(cityHost, cityTrack, () => h('div', { class: 'mq-set' }, gs.map(greetItem)), { speed: 38 }));
 
     const root = h('section', { class: 'hero', id: s.id, style: { '--dur': `${dur}ms` } },
       h('div', { class: 'hero-media' }, slides), h('div', { class: 'hero-scrim' }), h('div', { class: 'hero-grain' }),
       h('div', { class: 'hero-copy' },
-        h('img', { class: 'hero-logo', src: p.logo.src, alt: p.logo.alt, height: 132 }),
+        logoImg(p.logo, 132, { class: 'hero-logo' }),
         h('h1', {}, rich(p.tagline)), h('p', { class: 'lede' }, p.description),
         h('div', { class: 'hero-cta' }, cta(p.cta, 'btn btn--primary btn--lg'), p.secondaryCta && cta(p.secondaryCta, 'btn btn--glass btn--lg'))),
       next, h('div', { class: 'pips' }, pips), gs.length && h('div', { class: 'cities' }, cityHost));
@@ -271,7 +283,7 @@ const Components = {
     const p = s.props, max = CFG.global.limits.footerTablesMax;
     return h('footer', { class: 'footer', id: s.id }, toran(), h('div', { class: 'footer-glow', 'aria-hidden': 'true' }),
       h('div', { class: 'wrap footer-grid', style: { '--cols': Math.min(p.tables.length, max) } },
-        h('div', { class: 'footer-brand' }, h('a', { href: p.logo.href }, h('img', { src: p.logo.src, alt: p.logo.alt, height: 72 })), h('p', {}, p.description),
+        h('div', { class: 'footer-brand' }, h('a', { href: p.logo.href }, logoImg(p.logo, 72, { loading: 'lazy', decoding: 'async' })), h('p', {}, p.description),
           h('ul', { class: 'socials' }, p.socials.map(x => h('li', {}, h('a', { href: x.appendUtm ? withUtm(x.url, `footer-${x.icon}`) : x.url, 'aria-label': x.label, target: '_blank', rel: 'noopener' }, icon(x.icon) ?? x.label))))),
         p.tables.slice(0, max).map(t => h('nav', { class: 'footer-col', 'aria-label': t.heading }, h('h3', {}, t.heading), h('ul', {}, t.items.map(i => h('li', {}, h('a', { href: i.href, target: i.external ? '_blank' : null, rel: i.external ? 'noopener' : null }, i.label))))))),
       h('div', { class: 'wordmark', 'aria-hidden': 'true' }, p.wordmark ?? CFG.meta.siteName),
@@ -299,9 +311,9 @@ function applyTheme(t) {
 }
 async function boot() {
   const app = $('#app');
-  try { CFG = await (await fetch('config.json', { cache: 'no-cache' })).json(); }
-  catch (e) { app.replaceChildren(h('p', { class: 'boot' }, 'Unable to load content. Please refresh.')); return console.error(e); }
-  initForms(CFG); applyTheme(CFG.global.theme);
+  try { CFG = await (window.__cfg ?? fetch('config.json').then(r => r.json())); }
+  catch (e) { app.replaceChildren(h('p', { class: 'boot' }, t('loadError'))); return console.error(e); }
+  setStrings(CFG.global.ui); initForms(CFG); applyTheme(CFG.global.theme);
   // The loader covers the page while the sections below are being built.
   const heroProps = CFG.page.sections.find(x => x.component === 'HeroCarousel')?.props;
   const navProps = CFG.page.sections.find(x => x.component === 'Navbar')?.props;
@@ -314,7 +326,7 @@ async function boot() {
     try { frag.append(fn(s)); } catch (e) { console.error(`[TLL] ${s.component} failed`, e); }
   }
   app.replaceChildren(frag);
-  app.after(h('a', { class: 'to-top', href: '#top', 'aria-label': 'Back to top' }, svg('svg', { class: 'to-top-ring', viewBox: '0 0 52 52', 'aria-hidden': 'true' }, svg('circle', { cx: 26, cy: 26, r: 24, pathLength: 1 })), icon('arrow', 20)));
+  app.after(h('a', { class: 'to-top', href: '#top', 'aria-label': t('backToTop') }, svg('svg', { class: 'to-top-ring', viewBox: '0 0 52 52', 'aria-hidden': 'true' }, svg('circle', { cx: 26, cy: 26, r: 24, pathLength: 1 })), icon('arrow', 20)));
   flushMount(); ambient(); initSpot();
   performance.mark('tll-mounted');
   if (!CSS.supports('animation-timeline: view()')) {      // graceful fallback without scroll-driven animations
