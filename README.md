@@ -34,6 +34,21 @@ node scripts/serve.mjs      # http://localhost:8080
 
 Serves text responses gzipped (so local timings resemble production) and re-runs the build automatically whenever a source file is newer than `index.html`.
 
+## Admin CMS (`/admincms/`)
+
+A small editor for `config.json` (page content, images, UI labels, theme) and `seoconfig.json` (title, meta, Open Graph, JSON-LD switches, robots, `llms.txt`, performance). Left side lists the sections; the right side is a form for the selected one. Lists can be added to, reordered, duplicated and removed; image fields show a preview and a **Replace image…** button.
+
+**Sign-in is a placeholder.** Enter any 10-digit phone number and the default OTP `123456`. The site is static, so nothing is sent and nothing is verified server-side — anyone who reads `admincms/admincms.js` can bypass it. It keeps casual visitors out, not attackers. Before relying on it, swap `verifyOtp` in `admincms/admincms.js` for a real OTP service and have that service authorise saves.
+
+**How edits get saved depends on where it runs:**
+
+| Where | Save button | Result |
+| --- | --- | --- |
+| `node scripts/serve.mjs` (local) | **Save config.json** | Written to disk, `build-seo.mjs` re-run. Uploaded images land under `assets/`. Endpoints answer only to localhost, same-origin requests carrying an `x-admincms` header, and only touch the two JSON files and `assets/*` images. |
+| GitHub Pages / any static host | none — **Download JSON** | Replace the file in the repo with the download, run `node scripts/build-seo.mjs`, commit. A picked image is downloaded too; add it under the path the field now shows. |
+
+The page is `noindex` and `/admincms/` is disallowed in `robots.txt`.
+
 ## Performance switches (`seoconfig.json` → `performance`)
 
 - `inlineCss` — inline a minified `css/styles.css` into `<head>`, removing the one render-blocking request.

@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admincms/
 
 User-agent: GPTBot
 Allow: /

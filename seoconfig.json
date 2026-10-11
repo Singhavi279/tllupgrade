@@ -118,7 +118,8 @@
           "/"
         ],
         "disallow": [
-          "/api/"
+          "/api/",
+          "/admincms/"
         ]
       },
       {
