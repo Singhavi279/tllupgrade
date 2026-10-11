@@ -91,10 +91,23 @@ const Components = {
     const label = gs.length && h('span', { class: 'greet-label' }, h('i'), h('b', {}, `Hello in ${gs[0].label}`));
     const gcap = gs.length && h('div', { class: 'greet', 'aria-hidden': 'true' }, wordBox, label);
 
-    const next = ev && h('aside', { class: 'hero-ticket', 'aria-label': 'Next event' },
-      h('span', { class: 'live' }, h('i'), p.nextLabel ?? 'Next up'), h('p', { class: 'ticket-name' }, ev.name),
-      h('ul', { class: 'ticket-meta' }, h('li', {}, icon('calendar', 16), ev.dateText), h('li', {}, icon('pin', 16), ev.venue)),
-      cta(ev.cta, 'btn btn--light btn--sm', 'hero-' + ev.id));
+    const ups = events.filter(e => e.status === 'upcoming'), order = ev ? [ev, ...ups.filter(e => e !== ev)] : [];
+    let ti = 0;
+    const tBody = h('div', { class: 'ticket-body' });
+    const fill = e => tBody.replaceChildren(h('p', { class: 'ticket-name' }, e.name),
+      h('ul', { class: 'ticket-meta' }, h('li', {}, icon('calendar', 16), e.dateText), h('li', {}, icon('pin', 16), e.venue)),
+      cta(e.cta, 'btn btn--light btn--sm', 'hero-' + e.id));
+    const tDots = order.map((_, i) => h('button', { class: 'tdot' + (i ? '' : ' on'), type: 'button', 'aria-label': `Show event ${i + 1}`, onclick: () => show(i) }));
+    const tCount = h('span', { class: 'tcount' }, `01 / ${String(order.length).padStart(2, '0')}`);
+    function show(n) {
+      ti = (n + order.length) % order.length; tDots.forEach((d, i) => d.classList.toggle('on', i === ti));
+      tCount.textContent = `${String(ti + 1).padStart(2, '0')} / ${String(order.length).padStart(2, '0')}`;
+      tBody.classList.remove('swap'); void tBody.offsetWidth; fill(order[ti]); tBody.classList.add('swap');
+    }
+    if (order.length) fill(order[0]);
+    const next = order.length && h('aside', { class: 'hero-ticket', 'aria-label': 'Upcoming events' },
+      h('div', { class: 'ticket-top' }, h('span', { class: 'live' }, h('i'), p.nextLabel ?? 'Next up'), order.length > 1 && tCount), tBody,
+      order.length > 1 && h('div', { class: 'tdots' }, tDots));
 
     const cityTrack = h('div', { class: 'mq-track', 'data-ambient': '' }), cityHost = h('div', { class: 'mq' }, cityTrack);
     if (p.cities?.length) onMount(() => marquee(cityHost, cityTrack, () => h('div', { class: 'mq-set' }, p.cities.map(ct => h('span', { class: 'city' }, h('b', {}, ct.name), h('i', { lang: ct.lang, style: { 'font-family': vFont(ct.lang) } }, ct.native)))), { speed: 38 }));
@@ -115,6 +128,7 @@ const Components = {
         root.addEventListener('pointerleave', () => { hover = false; root.classList.remove('is-hover'); void pips[idx].offsetWidth; pips[idx].classList.remove('on'); void pips[idx].offsetWidth; pips[idx].classList.add('on'); schedule(); });
       }
       play(); schedule();
+      if (order.length > 1 && !REDUCE) setInterval(() => { if (visible && !hover) show(ti + 1); }, 5000);
       if (gs.length > 1 && !REDUCE) setInterval(() => {
         if (!visible) return;
         gi = (gi + 1) % gs.length; wordBox.replaceChildren(word(gs[gi])); label.lastChild.textContent = `Hello in ${gs[gi].label}`;
@@ -133,29 +147,39 @@ const Components = {
 
   EventGrid(s) {
     const p = s.props, L = CFG.global.limits;
-    const card = (e, i, big) => {
+    // One card design for every event: the banner fills a fixed 3:2 frame edge to edge (no blank borders),
+    // and all text sits on a solid panel below, so legibility never depends on the image.
+    const card = (e, i, clone) => {
       const fb = e.image.fallback || { bgColor: '#2E3A87', textColor: '#fff' };
       const fbArt = () => h('div', { class: 'card-fb', style: { background: fb.bgColor, color: fb.textColor }, role: 'img', 'aria-label': e.image.alt }, h('span', {}, e.name));
-      const media = e.image.src ? lazyImg(e.image.src, e.image.alt, { onerror(ev) { ev.target.replaceWith(fbArt()); } }) : fbArt();
-      const el = h('article', { class: `card card--${e.status}${big ? ' card--big' : ''} reveal`, id: `event-${e.id}`, lang: e.language, style: { '--accent': fb.bgColor, '--i': i } },
+      const media = e.image.src
+        ? lazyImg(e.image.src, e.image.alt, { class: 'fg', onerror(ev) { ev.target.closest('.card-media').replaceChildren(fbArt()); } })
+        : fbArt();
+      const el = h('article', { class: `card card--${e.status} reveal`, id: clone ? null : `event-${e.id}`, lang: e.language, style: { '--accent': fb.bgColor, '--i': i } },
         h('div', { class: 'card-media' }, media),
         h('div', { class: 'card-body' },
           h('div', { class: 'card-top' }, h('span', { class: `chip chip--${e.status}` }, e.status === 'past' ? 'Past' : 'Upcoming'), h('span', { class: 'cat' }, e.category)),
-          h('div', { class: 'card-main' },
-            h('h3', {}, e.name), h('p', { class: 'desc' }, clip(e.shortDescription, L.eventShortDescription, `${e.id}.shortDescription`)),
-            h('ul', { class: 'tags' }, e.tags.slice(0, L.eventTagsMax).map(t => h('li', {}, clip(t, L.eventTagLength, `${e.id}.tag`)))),
-            h('ul', { class: 'meta' }, h('li', {}, icon('calendar', 16), h('time', { datetime: e.dateISO }, e.dateText)), h('li', {}, icon('pin', 16), e.venue)),
-            cta(e.cta, 'btn btn--light', e.id))));
-      tilt(el, big ? 4 : 6); return el;
+          h('h3', {}, e.name), h('p', { class: 'desc' }, clip(e.shortDescription, L.eventShortDescription, `${e.id}.shortDescription`)),
+          h('ul', { class: 'tags' }, e.tags.slice(0, L.eventTagsMax).map(t => h('li', {}, clip(t, L.eventTagLength, `${e.id}.tag`)))),
+          h('ul', { class: 'meta' }, h('li', {}, icon('calendar', 16), h('time', { datetime: e.dateISO }, e.dateText)), h('li', {}, icon('pin', 16), e.venue)),
+          cta(e.cta, 'btn btn--light', clone ? 'clone-' + e.id : e.id)));
+      tilt(el, 5); return el;
     };
-    const groups = (p.groups ?? [{ status: null, title: p.heading, layout: 'bento' }]).map(g => {
+    const groups = (p.groups ?? [{ status: null, title: p.heading, layout: 'grid' }]).map(g => {
       const list = p.cards.filter(c => !g.status || c.status === g.status); if (!list.length) return null;
       const rail = g.layout === 'rail';
-      const body = rail ? h('ul', { class: 'rail' }, list.map((c, i) => h('li', {}, card(c, i)))) : h('div', { class: `cards${list.length >= 3 && g.layout === 'bento' ? ' cards--bento' : ''}` }, list.map((c, i) => card(c, i, i === 0 && list.length >= 3 && g.layout === 'bento')));
-      if (rail) dragScroll(body);
+      let body, tools = null;
+      if (rail && !REDUCE) {
+        // Past events drift past on their own; hover pauses, so a card can be read and clicked.
+        const track = h('div', { class: 'mq-track', 'data-ambient': '' });
+        body = h('div', { class: 'mq mq--cards' }, track);
+        let n = 0; onMount(() => marquee(body, track, () => { const first = !n++; return h('div', { class: 'mq-set' }, list.map((c, i) => card(c, i, !first))); }, { speed: 36 }));
+      } else if (rail) {
+        body = h('ul', { class: 'rail' }, list.map((c, i) => h('li', {}, card(c, i)))); dragScroll(body); tools = railArrows(body);
+      } else body = h('div', { class: 'cards' }, list.map((c, i) => card(c, i)));
       return h('div', { class: `group group--${g.status}` },
         h('div', { class: 'group-head reveal' }, h('div', {}, g.kicker && h('p', { class: 'eyebrow' }, g.kicker), h('h3', {}, g.title)),
-          h('div', { class: 'group-tools' }, g.countLabel && h('span', { class: 'count' }, `${String(list.length).padStart(2, '0')} ${g.countLabel}`), rail && railArrows(body))), body);
+          h('div', { class: 'group-tools' }, g.countLabel && h('span', { class: 'count' }, `${String(list.length).padStart(2, '0')} ${g.countLabel}`), tools)), body);
     });
     return section(s, 'events theme-light', h('div', { class: 'wrap' }, sectionHead(p), groups));
   },
@@ -168,9 +192,15 @@ const Components = {
       h('div', { class: 'info' }, h('strong', {}, x.name), h('span', {}, x.designation), h('em', {}, x.organization)));
     const tables = p.tables.map(t => {
       const rail = t.variant !== 'featured';
-      const list = h('ul', { class: rail ? 'rail rail--people' : 'vip-grid' }, t.people.map(person));
-      if (rail) dragScroll(list);
-      return h('div', { class: `people people--${t.variant}` }, h('div', { class: 'group-head reveal' }, h('h3', {}, t.title), rail && railArrows(list)), list);
+      let list, tools = null;
+      if (rail && !REDUCE) {
+        const track = h('div', { class: 'mq-track', 'data-ambient': '' }); list = h('div', { class: `mq mq--people${/2|second|alumni/i.test(t.variant) ? ' mq--rev' : ''}` }, track);
+        onMount(() => marquee(list, track, () => h('ul', { class: 'mq-set' }, t.people.map(person)), { speed: 30 }));
+      } else {
+        list = h('ul', { class: rail ? 'rail rail--people' : 'vip-grid' }, t.people.map(person));
+        if (rail) { dragScroll(list); tools = railArrows(list); }
+      }
+      return h('div', { class: `people people--${t.variant}` }, h('div', { class: 'group-head reveal' }, h('h3', {}, t.title), tools), list);
     });
     return section(s, 'speakers theme-dark', h('div', { class: 'spot', 'data-spot': '' }), rangoli({ rings: 6, petals: 12, className: 'speakers-r' }), h('div', { class: 'wrap' }, sectionHead(p), tables));
   },
