@@ -27,7 +27,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://w
     (p.priority != null ? `    <priority>${Number(p.priority).toFixed(1)}</priority>\n` : '') + `  </url>`).join('\n') + `\n</urlset>\n`;
 
 // ---- robots.txt ----
-const robots = seo.robots.rules.map(r => [`User-agent: ${r.userAgent}`, ...(r.allow ?? []).map(a => `Allow: ${a}`), ...(r.disallow ?? []).map(d => `Disallow: ${d}`)].join('\n')).join('\n\n') +
+const robots = seo.robots.rules.map(r => [`User-Agent: ${r.userAgent}`, ...(r.allow ?? []).map(a => `Allow: ${a}`), ...(r.disallow ?? []).map(d => `Disallow: ${d}`)].join('\n')).join('\n\n') +
   '\n\n' + seo.robots.sitemaps.map(s => `Sitemap: ${abs(s)}`).join('\n') + '\n';
 
 // ---- llms.txt (answer-engine summary) ----

@@ -116,35 +116,76 @@
         "userAgent": "*",
         "allow": [
           "/"
-        ],
-        "disallow": [
-          "/api/",
-          "/admincms/"
         ]
       },
       {
         "userAgent": "GPTBot",
         "allow": [
-          "/",
-          "/llms.txt"
+          "/"
+        ]
+      },
+      {
+        "userAgent": "OAI-SearchBot",
+        "allow": [
+          "/"
+        ]
+      },
+      {
+        "userAgent": "ChatGPT-User",
+        "allow": [
+          "/"
         ]
       },
       {
         "userAgent": "ClaudeBot",
         "allow": [
-          "/",
-          "/llms.txt"
+          "/"
+        ]
+      },
+      {
+        "userAgent": "Claude-SearchBot",
+        "allow": [
+          "/"
+        ]
+      },
+      {
+        "userAgent": "Claude-User",
+        "allow": [
+          "/"
         ]
       },
       {
         "userAgent": "PerplexityBot",
         "allow": [
-          "/",
-          "/llms.txt"
+          "/"
         ]
       },
       {
         "userAgent": "Google-Extended",
+        "allow": [
+          "/"
+        ]
+      },
+      {
+        "userAgent": "Applebot-Extended",
+        "allow": [
+          "/"
+        ]
+      },
+      {
+        "userAgent": "CCBot",
+        "allow": [
+          "/"
+        ]
+      },
+      {
+        "userAgent": "Bingbot",
+        "allow": [
+          "/"
+        ]
+      },
+      {
+        "userAgent": "Googlebot",
         "allow": [
           "/"
         ]

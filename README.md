@@ -47,7 +47,7 @@ A small editor for `config.json` (page content, images, UI labels, theme) and `s
 | `node scripts/serve.mjs` (local) | **Save config.json** | Written to disk, `build-seo.mjs` re-run. Uploaded images land under `assets/`. Endpoints answer only to localhost, same-origin requests carrying an `x-admincms` header, and only touch the two JSON files and `assets/*` images. |
 | GitHub Pages / any static host | none — **Download JSON** | Replace the file in the repo with the download, run `node scripts/build-seo.mjs`, commit. A picked image is downloaded too; add it under the path the field now shows. |
 
-The page is `noindex` and `/admincms/` is disallowed in `robots.txt`.
+The page carries `<meta name="robots" content="noindex, nofollow">`. `robots.txt` allows everything, so crawlers can fetch the page and read that tag.
 
 ## Performance switches (`seoconfig.json` → `performance`)
 

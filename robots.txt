@@ -1,21 +1,40 @@
-User-agent: *
+User-Agent: *
 Allow: /
-Disallow: /api/
-Disallow: /admincms/
 
-User-agent: GPTBot
+User-Agent: GPTBot
 Allow: /
-Allow: /llms.txt
 
-User-agent: ClaudeBot
+User-Agent: OAI-SearchBot
 Allow: /
-Allow: /llms.txt
 
-User-agent: PerplexityBot
+User-Agent: ChatGPT-User
 Allow: /
-Allow: /llms.txt
 
-User-agent: Google-Extended
+User-Agent: ClaudeBot
+Allow: /
+
+User-Agent: Claude-SearchBot
+Allow: /
+
+User-Agent: Claude-User
+Allow: /
+
+User-Agent: PerplexityBot
+Allow: /
+
+User-Agent: Google-Extended
+Allow: /
+
+User-Agent: Applebot-Extended
+Allow: /
+
+User-Agent: CCBot
+Allow: /
+
+User-Agent: Bingbot
+Allow: /
+
+User-Agent: Googlebot
 Allow: /
 
 Sitemap: https://timeslanguages.in/sitemap.xml
