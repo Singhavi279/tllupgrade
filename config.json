@@ -44,7 +44,47 @@
           "ml": "'Noto Sans Malayalam'",
           "gu": "'Noto Sans Gujarati'"
         },
-        "accent": "'Instrument Serif', Georgia, 'Times New Roman', serif"
+        "accent": "'Instrument Serif', Georgia, 'Times New Roman', serif",
+        "$comment": "display/body/accent are CSS font-family stacks used by the stylesheet. googleFonts is what actually gets requested from fonts.googleapis.com (scripts/build-seo.mjs builds the <link> tags from it). vernacular:true entries are subset to only the glyphs appearing in HeroCarousel.greetings, since they otherwise download 80-120KB each for scripts the page barely uses.",
+        "googleFonts": [
+          {
+            "query": "Inter:wght@400;500;600;700"
+          },
+          {
+            "query": "Instrument+Serif:ital@0;1"
+          },
+          {
+            "query": "Mukta:wght@500;700;800"
+          },
+          {
+            "query": "Noto+Sans+Devanagari:wght@500;700",
+            "vernacular": true
+          },
+          {
+            "query": "Noto+Sans+Kannada:wght@500;700",
+            "vernacular": true
+          },
+          {
+            "query": "Noto+Sans+Bengali:wght@500;700",
+            "vernacular": true
+          },
+          {
+            "query": "Noto+Sans+Tamil:wght@500;700",
+            "vernacular": true
+          },
+          {
+            "query": "Noto+Sans+Telugu:wght@500;700",
+            "vernacular": true
+          },
+          {
+            "query": "Noto+Sans+Malayalam:wght@500;700",
+            "vernacular": true
+          },
+          {
+            "query": "Noto+Sans+Gujarati:wght@500;700",
+            "vernacular": true
+          }
+        ]
       }
     },
     "forms": {

@@ -161,7 +161,7 @@ const Components = {
       const fb = e.image.fallback || { bgColor: '#2E3A87', textColor: '#fff' };
       const fbArt = () => h('div', { class: 'card-fb', style: { background: fb.bgColor, color: fb.textColor }, role: 'img', 'aria-label': e.image.alt }, h('span', {}, e.name));
       const media = e.image.src
-        ? lazyImg(e.image.src, e.image.alt, { class: 'fg', onerror(ev) { ev.target.closest('.card-media').replaceChildren(fbArt()); } })
+        ? lazyImg(e.image.src, e.image.alt, { class: 'fg', width: 900, height: 600, onerror(ev) { ev.target.closest('.card-media').replaceChildren(fbArt()); } })
         : fbArt();
       const el = h('article', { class: `card card--${e.status} reveal`, id: clone ? null : `event-${e.id}`, lang: e.language, style: { '--accent': fb.bgColor, '--i': i } },
         h('div', { class: 'card-media' }, media),
@@ -218,7 +218,7 @@ const Components = {
     const rows = [0, 1].map(r => {
       const order = r ? [...logos].reverse() : logos;
       const track = h('div', { class: 'mq-track', 'data-ambient': '' }), host = h('div', { class: `mq${r ? ' mq--rev' : ''}` }, track);
-      onMount(() => marquee(host, track, () => h('div', { class: 'mq-set' }, order.map(l => h('div', { class: 'logo-chip' }, h('img', { src: l.src, alt: l.alt, loading: 'lazy', height: 36 })))), { speed: r ? 34 : 42 }));
+      onMount(() => marquee(host, track, () => h('div', { class: 'mq-set' }, order.map(l => h('div', { class: 'logo-chip' }, h('img', { src: l.src, alt: l.alt, loading: 'lazy', height: 36, width: 108 })))), { speed: r ? 34 : 42 }));
       return host;
     });
     return section(s, 'brands theme-light', h('div', { class: 'wrap' }, sectionHead(p)), logos.length ? h('div', { class: 'brand-rows' }, rows) : null);
