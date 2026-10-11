@@ -69,17 +69,16 @@ const EMIT = {
       `<div class="hero-copy">${logoImg(p.logo, 132, ' class="hero-logo"')}` +
       `<h1>${rich(p.tagline)}</h1><p class="lede">${esc(p.description)}</p>` +
       `<div class="hero-cta">${cta(p.cta, 'btn btn--primary btn--lg', ctx.mailto)}${cta(p.secondaryCta, 'btn btn--glass btn--lg', ctx.mailto)}</div></div>` +
-      ticket(p, ctx) +
       `<div class="cities"><div class="mq"><div class="mq-track"><div class="mq-set">` +
       list((p.greetings ?? []).map(g => `<span class="city city--greet"><i lang="${esc(g.lang)}">${esc(g.text)}</i><b>${esc(ctx.t('greetingLabel', { language: g.label }, 'Hello in {language}'))}</b></span>`)) +
       `</div></div></div></div></section>`;
   },
 
   AboutUs: s => {
-    const p = s.props, items = p.stats?.items ?? [];
+    const p = s.props, paras = [].concat(p.content), items = p.stats?.items ?? [];
     return sec(s, 'about theme-light', `<div class="wrap about-grid"><div class="about-aside"><h2>${rich(p.heading)}</h2>` +
       (items.length ? `<div class="stats">${list(items.map(x => `<article class="stat"><span class="stat-num"><b>${esc(x.value)}</b><i>${esc(x.suffix ?? '')}</i></span><h3>${esc(x.label)}</h3>${x.sub ? `<p>${esc(x.sub)}</p>` : ''}</article>`))}</div>` : '') +
-      `</div><div class="about-body">${list([].concat(p.content).map(t => `<p>${esc(t)}</p>`))}</div></div>`);
+      `</div><div class="about-body"><p class="lit">${esc(paras[0] ?? '')}</p>${list(paras.slice(1).map(t => `<p>${esc(t)}</p>`))}</div></div>`);
   },
 
   EventGrid: s => {
@@ -117,9 +116,11 @@ const EMIT = {
   NewsletterSSO: (s, ctx) => sec(s, 'newsletter theme-light', `<div class="wrap"><div class="news">${head(s.props)}` +
     cta(s.props.cta, 'btn btn--dark btn--lg', ctx.mailto) + (s.props.consentText ? `<p class="fine">${esc(s.props.consentText)}</p>` : '') + `</div></div>`),
 
-  ContactSPOC: s => sec(s, 'contact', `<div class="wrap">${head(s.props)}` +
-    list((s.props.cards ?? []).map(c => `<article class="spoc"><h3>${esc(c.category)}</h3><p>${esc(c.name)}</p>` +
-      `<p><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></p>${c.phone ? `<p><a href="tel:${esc(String(c.phone).replace(/\s+/g, ''))}">${esc(c.phone)}</a></p>` : ''}</article>`)) + `</div>`),
+  ContactSPOC: s => sec(s, 'contactus theme-light', `<div class="wrap">${head(s.props)}<div class="contacts">` +
+    list((s.props.cards ?? []).map(c => `<article class="contact-card reveal"><div class="contact-ic">${ico(c.icon ?? 'mail', 20)}</div>` +
+      `<p class="cat">${esc(c.category)}</p><h3>${esc(c.name)}</h3>` +
+      (c.phone ? `<a href="tel:${esc(String(c.phone).replace(/[^\d+]/g, ''))}">${ico('phone', 14)}${esc(c.phone)}</a>` : '') +
+      `<a href="mailto:${esc(c.email)}">${ico('mail', 14)}${esc(c.email)}</a></article>`)) + `</div></div>`),
 
   Footer: s => {
     const p = s.props;

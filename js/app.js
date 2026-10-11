@@ -98,24 +98,6 @@ const Components = {
 
     const gs = p.greetings ?? [];
 
-    const ups = events.filter(e => e.status === 'upcoming'), order = ev ? [ev, ...ups.filter(e => e !== ev)] : [];
-    let ti = 0;
-    const tBody = h('div', { class: 'ticket-body' });
-    const fill = e => tBody.replaceChildren(h('p', { class: 'ticket-name' }, e.name),
-      h('ul', { class: 'ticket-meta' }, h('li', {}, icon('calendar', 16), e.dateText), h('li', {}, icon('pin', 16), e.venue)),
-      cta(e.cta, 'btn btn--light btn--sm', 'hero-' + e.id));
-    const tDots = order.map((_, i) => h('button', { class: 'tdot' + (i ? '' : ' on'), type: 'button', 'aria-label': t('eventSlideLabel', { n: i + 1 }), onclick: () => show(i) }));
-    const tCount = h('span', { class: 'tcount' }, `01 / ${String(order.length).padStart(2, '0')}`);
-    function show(n) {
-      ti = (n + order.length) % order.length; tDots.forEach((d, i) => d.classList.toggle('on', i === ti));
-      tCount.textContent = `${String(ti + 1).padStart(2, '0')} / ${String(order.length).padStart(2, '0')}`;
-      tBody.classList.remove('swap'); void tBody.offsetWidth; fill(order[ti]); tBody.classList.add('swap');
-    }
-    if (order.length) fill(order[0]);
-    const next = order.length && h('aside', { class: 'hero-ticket', 'aria-label': t('upcomingEventsLabel') },
-      h('div', { class: 'ticket-top' }, h('span', { class: 'live' }, h('i'), p.nextLabel ?? t('nextUpLabel')), order.length > 1 && tCount), tBody,
-      order.length > 1 && h('div', { class: 'tdots' }, tDots));
-
     // The strip greets in each script of India. Cities stay in config.json but are not shown here.
     const cityTrack = h('div', { class: 'mq-track', 'data-ambient': '' }), cityHost = h('div', { class: 'mq' }, cityTrack);
     const greetItem = g => h('span', { class: 'city city--greet' },
@@ -128,7 +110,7 @@ const Components = {
         logoImg(p.logo, 132, { class: 'hero-logo' }),
         h('h1', {}, rich(p.tagline)), h('p', { class: 'lede' }, p.description),
         h('div', { class: 'hero-cta' }, cta(p.cta, 'btn btn--primary btn--lg'), p.secondaryCta && cta(p.secondaryCta, 'btn btn--glass btn--lg'))),
-      next, h('div', { class: 'pips' }, pips), gs.length && h('div', { class: 'cities' }, cityHost));
+      h('div', { class: 'pips' }, pips), gs.length && h('div', { class: 'cities' }, cityHost));
 
     onMount(() => {
       $$('.btn--lg', root).forEach(b => magnet(b));
@@ -138,7 +120,6 @@ const Components = {
         root.addEventListener('pointerleave', () => { hover = false; root.classList.remove('is-hover'); void pips[idx].offsetWidth; pips[idx].classList.remove('on'); void pips[idx].offsetWidth; pips[idx].classList.add('on'); schedule(); });
       }
       play(); schedule();
-      if (order.length > 1 && !REDUCE) setInterval(() => { if (visible && !hover) show(ti + 1); }, 5000);
     });
     return root;
   },
@@ -275,8 +256,8 @@ const Components = {
   ContactSPOC(s) {
     const p = s.props;
     return section(s, 'contactus theme-light', h('div', { class: 'wrap' }, sectionHead(p), h('div', { class: 'contacts' }, p.cards.map(c => h('article', { class: 'contact-card reveal' },
-      h('div', { class: 'contact-ic' }, icon(c.icon ?? 'mail', 22)), h('p', { class: 'cat' }, c.category), h('h3', {}, c.name),
-      h('a', { href: `tel:${c.phone.replace(/[^\d+]/g, '')}` }, icon('phone', 16), c.phone), h('a', { href: `mailto:${c.email}` }, icon('mail', 16), c.email))))));
+      h('div', { class: 'contact-ic' }, icon(c.icon ?? 'mail', 20)), h('p', { class: 'cat' }, c.category), h('h3', {}, c.name),
+      h('a', { href: `tel:${c.phone.replace(/[^\d+]/g, '')}` }, icon('phone', 14), c.phone), h('a', { href: `mailto:${c.email}` }, icon('mail', 14), c.email))))));
   },
 
   Footer(s) {

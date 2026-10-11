@@ -178,8 +178,7 @@
   .hero h1 em { background-image: linear-gradient(95deg, #fff, var(--c-haldi) 70%, var(--c-saffron)); }
   .hero .lede { color: rgb(255 255 255 / .9); max-width: 62ch; font-size: clamp(1.02rem, 1.4vw, 1.2rem); }
   .hero-cta { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: .5rem; }
-  .hero-ticket { position: absolute; z-index: 4; right: var(--pad); top: 10.6rem; width: 300px; display: grid; gap: .8rem; padding: 1.3rem 1.4rem 1.4rem; border-radius: 26px;
-    background: linear-gradient(160deg, rgb(24 17 12 / .66), rgb(24 17 12 / .42)); border: 1px solid rgb(255 255 255 / .26); backdrop-filter: blur(22px) saturate(1.4); box-shadow: 0 40px 80px -30px rgb(0 0 0 / .85); animation: float 7s ease-in-out infinite; }
+  .hero-ticket { display: none !important; }
   .ticket-top { display: flex; align-items: center; justify-content: space-between; }
   .tcount { font: 700 .72rem/1 var(--font-body); letter-spacing: .14em; color: rgb(255 255 255 / .7); font-variant-numeric: tabular-nums; }
   .ticket-body { display: grid; gap: .8rem; min-height: 11.5rem; align-content: start; }
@@ -218,8 +217,8 @@
   .about-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(2rem, 4.5vw, 4.5rem); align-items: start; }
   .about-aside { display: grid; gap: clamp(1.6rem, 3vw, 2.6rem); }
   .about-body { display: grid; gap: 1.6rem; }
-  .lit { font: 600 clamp(1.55rem, 3.3vw, 2.7rem)/1.22 var(--font-display); letter-spacing: -.02em; }
-  .about-body p:not(.lit) { font-size: 1.12rem; color: var(--muted); max-width: 56ch; }
+  .lit { font: 600 clamp(1.05rem, 1.25vw, 1.18rem)/1.55 var(--font-display); letter-spacing: -.01em; }
+  .about-body p:not(.lit) { font-size: 1rem; color: var(--muted); max-width: 56ch; line-height: 1.6; }
   .rangoli { color: var(--c-brand); pointer-events: none; }
   .rangoli path, .rangoli circle { vector-effect: non-scaling-stroke; }
   .rangoli path { fill: none; stroke: currentColor; stroke-width: 1.2; } .rangoli circle { fill: currentColor; }
@@ -233,8 +232,8 @@
   .stat:hover { transition-duration: .18s; box-shadow: 0 32px 60px -34px color-mix(in oklab, var(--accent) 60%, black); }
   .stat::before { content: ''; position: absolute; z-index: -1; inset: auto -30% -55% auto; width: 14rem; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%); }
   .stat:nth-child(2) { --accent: var(--c-peacock); } .stat:nth-child(3) { --accent: var(--c-indigo); } .stat:nth-child(4) { --accent: var(--c-saffron); }
-  .stat-num { display: flex; align-items: baseline; font: 800 clamp(1.9rem, 3.4vw, 2.6rem)/1.2 var(--font-display); letter-spacing: -.04em; color: var(--c-ink); font-variant-numeric: tabular-nums; }
-  .stat-num i { font-style: normal; font-size: .52em; letter-spacing: -.02em; color: var(--accent); }
+  .stat-num { display: flex; align-items: baseline; gap: .06em; font: 800 clamp(1.9rem, 3.4vw, 2.6rem)/1.2 var(--font-display); letter-spacing: -.02em; color: var(--c-ink); font-variant-numeric: tabular-nums; }
+  .stat-num i { font-style: normal; font-size: .52em; letter-spacing: 0; margin-left: .15em; color: var(--accent); }
   .stat h3 { font-size: .95rem; letter-spacing: -.01em; }
   .stat p { font-size: .78rem; line-height: 1.45; color: var(--muted); max-width: 24ch; }
   .stat::before { width: 9rem; }
@@ -364,15 +363,22 @@
 
   /* =============== CONTACT =============== */
   .contactus { background-color: var(--cream-2); }
-  .contacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); column-gap: var(--gap); }
-  /* Subgrid: icon / label / name / phone / email rows align across all cards even when text wraps */
-  .contacts > .contact-card { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: .5rem; align-content: start; margin-bottom: var(--gap); padding: 1.5rem 1.4rem; border: 1px solid var(--line); border-radius: var(--r); background: #fff; transition: transform .5s var(--ease-out), box-shadow .5s; }
+  .contactus .wrap { width: min(100% - 2 * var(--pad), 1380px); }
+  .contacts { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(0.5rem, 0.9vw, 0.85rem); margin-bottom: var(--gap); }
+  /* Subgrid: icon / label / name / phone / email rows align across all cards */
+  .contacts > .contact-card { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: .45rem; align-content: start; padding: 1.25rem clamp(0.65rem, 0.9vw, 0.9rem); border: 1px solid var(--line); border-radius: var(--r); background: #fff; transition: transform .5s var(--ease-out), box-shadow .5s; min-width: 0; }
   .contacts > .contact-card:hover { transform: translateY(-6px); box-shadow: 0 30px 50px -30px rgb(20 17 15 / .35); }
-  .contact-ic { display: grid; place-items: center; width: 54px; height: 54px; margin-bottom: .6rem; border-radius: 16px; color: #fff; background: linear-gradient(135deg, var(--c-brand), var(--c-saffron)); }
-  .contacts .cat { font: 700 .72rem var(--font-body); letter-spacing: .16em; text-transform: uppercase; color: var(--c-brand); }
-  .contacts h3 { font-size: 1.5rem; }
-  .contacts a { display: flex; align-items: center; gap: .55rem; text-decoration: none; font-weight: 550; font-size: .85rem; overflow-wrap: break-word; min-width: 0; } .contacts a:hover { color: var(--c-brand); text-decoration: underline; }
-  .contacts a .ico { color: var(--muted); }
+  .contact-ic { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: .4rem; border-radius: 13px; color: #fff; background: linear-gradient(135deg, var(--c-brand), var(--c-saffron)); }
+  .contact-ic .ico { width: 20px; height: 20px; }
+  .contacts .cat { font: 700 clamp(0.62rem, 0.7vw, 0.68rem) var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--c-brand); white-space: nowrap; text-wrap: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .contacts h3 { font-size: clamp(1.1rem, 1.25vw, 1.28rem); white-space: nowrap; text-wrap: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+  .contacts a { display: flex; align-items: center; gap: .45rem; text-decoration: none; font-weight: 550; font-size: clamp(0.72rem, 0.78vw, 0.82rem); white-space: nowrap; text-wrap: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .contacts a:hover { color: var(--c-brand); text-decoration: underline; }
+  .contacts a .ico { color: var(--muted); flex-shrink: 0; width: 14px; height: 14px; }
+  @media (max-width: 1040px) {
+    .contacts { display: flex; flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: .85rem; -webkit-overflow-scrolling: touch; }
+    .contacts > .contact-card { flex: 0 0 clamp(220px, 28vw, 245px); scroll-snap-align: start; margin-bottom: 0; }
+  }
 
   /* =============== FOOTER =============== */
   .footer { position: relative; overflow: clip; padding-top: clamp(6rem, 10vw, 8rem); background: #0A0807; color: rgb(255 255 255 / .8); }
