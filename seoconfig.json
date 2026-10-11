@@ -1,0 +1,237 @@
+{
+  "$schemaVersion": "1.0.0",
+  "$comment": "Consumed by scripts/build-seo.mjs → sitemap.xml, robots.txt, llms.txt, and <head> injection into index.html. Source: existing timeslanguages.in head.",
+  "site": {
+    "baseUrl": "https://timeslanguages.in",
+    "name": "Times Internet Languages Live",
+    "publisher": "Times Internet",
+    "defaultLocale": "en_IN",
+    "alternateLocales": [
+      "hi_IN"
+    ],
+    "themeColor": "#f7f5ef",
+    "googleSiteVerification": "JYn_NFaOSK9Z4vPZe4n6l-aLTP_zoMrbmOEaUKy0l7o",
+    "favicon": "assets/brand/langlive.png",
+    "author": "Times Internet"
+  },
+  "defaults": {
+    "title": "Times Internet Languages Live Events | India's Premium Vernacular Event Portfolio",
+    "description": "Discover Times Internet Languages Live - a premium portfolio of education, healthcare, lifestyle & entertainment and partner-led event IPs across Indian cities, languages and high-intent communities.",
+    "keywords": [
+      "Times Internet Languages Live",
+      "Times Internet events",
+      "India events 2026",
+      "vernacular events India",
+      "Hindi events",
+      "career counselling India",
+      "study abroad conclave",
+      "maternity expo India",
+      "comedy talent hunt India",
+      "brand sponsorship India",
+      "education events Delhi Mumbai",
+      "lifestyle & entertainment events India"
+    ],
+    "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    "og": {
+      "type": "website",
+      "image": "https://images.pexels.com/photos/8199169/pexels-photo-8199169.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "imageAlt": "Times Internet Languages Live - India's Premium Event Portfolio",
+      "imageWidth": 1200,
+      "imageHeight": 630,
+      "description": "A premium portfolio of education, healthcare, lifestyle & entertainment and partnership-led events from Times Internet - built for India's vernacular-first audiences."
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "site": "@timesinternet",
+      "creator": "@timesinternet"
+    }
+  },
+  "pages": [
+    {
+      "path": "/",
+      "changefreq": "daily",
+      "priority": 1.0,
+      "lastmod": "2026-10-11"
+    },
+    {
+      "path": "/nivesh-baithak/surat",
+      "changefreq": "weekly",
+      "priority": 0.9,
+      "lastmod": "2026-10-11"
+    },
+    {
+      "path": "/nivesh-baithak/delhi",
+      "changefreq": "monthly",
+      "priority": 0.6,
+      "lastmod": "2026-10-11"
+    },
+    {
+      "path": "/msme",
+      "changefreq": "weekly",
+      "priority": 0.9,
+      "lastmod": "2026-10-11"
+    },
+    {
+      "path": "/tfm-blr",
+      "changefreq": "weekly",
+      "priority": 0.9,
+      "lastmod": "2026-10-11"
+    },
+    {
+      "path": "/vkrealestate",
+      "changefreq": "monthly",
+      "priority": 0.6,
+      "lastmod": "2026-10-11"
+    },
+    {
+      "path": "/astro-mahasangam",
+      "changefreq": "monthly",
+      "priority": 0.6,
+      "lastmod": "2026-10-11"
+    },
+    {
+      "path": "/privacypolicy",
+      "changefreq": "yearly",
+      "priority": 0.2,
+      "lastmod": "2026-10-11"
+    },
+    {
+      "path": "/termsandconditions",
+      "changefreq": "yearly",
+      "priority": 0.2,
+      "lastmod": "2026-10-11"
+    },
+    {
+      "path": "/cancellationpolicy",
+      "changefreq": "yearly",
+      "priority": 0.2,
+      "lastmod": "2026-10-11"
+    }
+  ],
+  "robots": {
+    "rules": [
+      {
+        "userAgent": "*",
+        "allow": [
+          "/"
+        ],
+        "disallow": [
+          "/api/"
+        ]
+      },
+      {
+        "userAgent": "GPTBot",
+        "allow": [
+          "/",
+          "/llms.txt"
+        ]
+      },
+      {
+        "userAgent": "ClaudeBot",
+        "allow": [
+          "/",
+          "/llms.txt"
+        ]
+      },
+      {
+        "userAgent": "PerplexityBot",
+        "allow": [
+          "/",
+          "/llms.txt"
+        ]
+      },
+      {
+        "userAgent": "Google-Extended",
+        "allow": [
+          "/"
+        ]
+      }
+    ],
+    "sitemaps": [
+      "/sitemap.xml"
+    ]
+  },
+  "llms": {
+    "title": "Times Internet Languages Live",
+    "summary": "Times Internet Languages Live is the vernacular-first events arm of Times Internet - a curated portfolio of region-first events across healthcare, education, entertainment & lifestyle, and MSMEs, built for the audiences, cities, and languages that move modern India.",
+    "details": [
+      "Audiences: brands and policymakers who sponsor or partner on regional event IPs; everyday Indians who attend, learn and register for summits.",
+      "Cities: Delhi, Mumbai, Pune, Jaipur, Bhopal, Patna, Lucknow, Chennai, Ahmedabad, Hyderabad, Bengaluru, Surat.",
+      "Languages: Hindi, English, Hinglish and regional languages.",
+      "Partnerships: write to gaurav.vats@timesinternet.in or use https://timeslanguages.in/#partners"
+    ],
+    "sections": [
+      {
+        "heading": "Upcoming Events",
+        "includeEvents": {
+          "status": "upcoming"
+        }
+      },
+      {
+        "heading": "Past Events",
+        "includeEvents": {
+          "status": "past"
+        }
+      },
+      {
+        "heading": "Key Pages",
+        "links": [
+          {
+            "title": "Homepage",
+            "url": "/",
+            "description": "Events calendar, partner formats, FAQs and contacts."
+          },
+          {
+            "title": "Partner With Us",
+            "url": "/#partners",
+            "description": "Thought leadership, decision-maker access, regional relevance, multi-city exposure, audience insights, speaking slots."
+          },
+          {
+            "title": "Contact",
+            "url": "/#contact",
+            "description": "Contacts for general queries, award nominations, speaking and sponsorships."
+          }
+        ]
+      }
+    ]
+  },
+  "structuredData": {
+    "organization": {
+      "@type": "Organization",
+      "name": "Times Internet Languages Live",
+      "url": "https://timeslanguages.in",
+      "logo": "https://timeslanguages.in/langlive.png",
+      "sameAs": [
+        "https://www.timesinternet.in/",
+        "https://www.linkedin.com/company/times-languages-live/",
+        "https://x.com/timeslanglive",
+        "https://www.youtube.com/@timeslanguageslive",
+        "https://www.instagram.com/timeslanguages"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "New Delhi",
+        "addressRegion": "DL",
+        "addressCountry": "IN"
+      },
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "Times Internet"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "sales",
+          "email": "gaurav.vats@timesinternet.in",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "English",
+            "Hindi"
+          ]
+        }
+      ]
+    },
+    "emitEventSchema": true,
+    "emitFaqSchema": true
+  }
+}

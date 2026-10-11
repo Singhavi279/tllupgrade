@@ -1,0 +1,1160 @@
+{
+  "$schemaVersion": "1.0.0",
+  "$comment": "Times Internet Languages Live homepage content. Real content from timeslanguages.in; Speakers, Brands photos/logos and Newsletter copy are PLACEHOLDERS (marked in their $comment) until real assets are supplied. Headings accept *word* markup: the starred part is rendered in the serif accent style.",
+  "meta": {
+    "siteName": "Times Internet Languages Live",
+    "lastUpdated": "2026-10-11",
+    "defaultLocale": "en-IN"
+  },
+  "global": {
+    "utm": {
+      "utm_source": "timeslanguages",
+      "utm_medium": "homepage",
+      "utm_campaign": "languages_live_events"
+    },
+    "limits": {
+      "eventShortDescription": 150,
+      "eventTagsMax": 5,
+      "eventTagLength": 20,
+      "footerTablesMax": 3,
+      "trendingHighlightsMax": 3
+    },
+    "theme": {
+      "colors": {
+        "brand": "#C8102E",
+        "saffron": "#FF9933",
+        "haldi": "#F4B400",
+        "peacock": "#00796B",
+        "indigo": "#2E3A87",
+        "kumkum": "#B3003B",
+        "ink": "#14110F",
+        "paper": "#FBF7F0",
+        "muted": "#6B635A"
+      },
+      "fonts": {
+        "display": "'Mukta', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Bengali', 'Noto Sans Kannada', 'Noto Sans Telugu', 'Noto Sans Malayalam', 'Noto Sans Gujarati', system-ui, sans-serif",
+        "body": "'Inter', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Bengali', 'Noto Sans Kannada', 'Noto Sans Telugu', 'Noto Sans Malayalam', 'Noto Sans Gujarati', system-ui, sans-serif",
+        "vernacular": {
+          "hi": "'Noto Sans Devanagari'",
+          "mr": "'Noto Sans Devanagari'",
+          "bn": "'Noto Sans Bengali'",
+          "kn": "'Noto Sans Kannada'",
+          "ta": "'Noto Sans Tamil'",
+          "te": "'Noto Sans Telugu'",
+          "ml": "'Noto Sans Malayalam'",
+          "gu": "'Noto Sans Gujarati'"
+        },
+        "accent": "'Instrument Serif', Georgia, 'Times New Roman', serif"
+      }
+    },
+    "forms": {
+      "partner-enquiry": {
+        "title": "Partner with Times Internet Languages Live",
+        "intro": "Fill in your details and our team will get back to you.",
+        "submitUrl": "/api/forms/partner-enquiry",
+        "submitText": "Submit Interest",
+        "successMessage": "Thank you! We've received your interest. Our partnerships team will reach out within 24 hours.",
+        "fields": [
+          {
+            "name": "fullName",
+            "label": "Full Name",
+            "type": "text",
+            "required": true,
+            "placeholder": "Your full name",
+            "autocomplete": "name"
+          },
+          {
+            "name": "phone",
+            "label": "Phone Number",
+            "type": "tel",
+            "required": true,
+            "placeholder": "+91 9876543210",
+            "autocomplete": "tel"
+          },
+          {
+            "name": "email",
+            "label": "Email",
+            "type": "email",
+            "required": true,
+            "placeholder": "you@company.com",
+            "autocomplete": "email"
+          },
+          {
+            "name": "designation",
+            "label": "Designation",
+            "type": "text",
+            "required": true,
+            "placeholder": "VP Marketing",
+            "autocomplete": "organization-title"
+          },
+          {
+            "name": "company",
+            "label": "Company",
+            "type": "text",
+            "required": true,
+            "placeholder": "Acme Corp",
+            "autocomplete": "organization"
+          },
+          {
+            "name": "note",
+            "label": "Add a Note (optional)",
+            "type": "textarea",
+            "required": false,
+            "placeholder": "Tell us about your interest or questions..."
+          },
+          {
+            "name": "optComms",
+            "label": "I agree to receive further communication via WhatsApp and email",
+            "type": "checkbox",
+            "required": false
+          },
+          {
+            "name": "optTerms",
+            "label": "I agree to the Terms & Conditions and Privacy Policy",
+            "type": "checkbox",
+            "required": true,
+            "checked": true,
+            "links": [
+              {
+                "text": "Terms & Conditions",
+                "href": "https://timeslanguages.in/termsandconditions"
+              },
+              {
+                "text": "Privacy Policy",
+                "href": "https://timeslanguages.in/privacypolicy"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "sso": {
+      "loginUrl": "https://jsso.indiatimes.com/sso/identity/login",
+      "channel": "timeslanguages",
+      "returnUrl": "https://timeslanguages.in/?subscribed=1",
+      "optinEndpoint": "/api/newsletter/optin",
+      "marketingListId": "tll-live-newsletter",
+      "consentText": "By continuing, I agree to receive event updates and marketing emails from Times Internet. I can unsubscribe anytime."
+    },
+    "intro": {
+      "$comment": "Curtain animation on first load. oncePerSession:true plays it once per browser session.",
+      "enabled": true,
+      "oncePerSession": true
+    }
+  },
+  "page": {
+    "sections": [
+      {
+        "id": "nav",
+        "component": "Navbar",
+        "enabled": true,
+        "props": {
+          "logo": {
+            "src": "https://timeslanguages.in/assets/timeslang/assets/langlive.png",
+            "alt": "Times Internet Languages Live",
+            "href": "#top"
+          },
+          "items": [
+            {
+              "label": "Home",
+              "href": "#top"
+            },
+            {
+              "label": "Events",
+              "href": "#events"
+            },
+            {
+              "label": "Partner",
+              "href": "#partners"
+            },
+            {
+              "label": "FAQs",
+              "href": "#faq"
+            },
+            {
+              "label": "Contact Us",
+              "href": "#contact",
+              "variant": "cta"
+            }
+          ]
+        }
+      },
+      {
+        "id": "trending",
+        "component": "TrendingTicker",
+        "enabled": true,
+        "props": {
+          "label": "Trending Events:",
+          "items": [
+            {
+              "text": "TFM Bengaluru",
+              "href": "https://timeslanguages.in/tfm-blr",
+              "external": true,
+              "appendUtm": true,
+              "highlight": true
+            },
+            {
+              "text": "Nivesh Baithak: Surat Edition",
+              "href": "https://timeslanguages.in/nivesh-baithak/surat",
+              "external": true,
+              "appendUtm": true,
+              "highlight": true
+            },
+            {
+              "text": "India MSME Dialogue",
+              "href": "https://timeslanguages.in/msme",
+              "external": true,
+              "appendUtm": true,
+              "highlight": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "top",
+        "component": "HeroCarousel",
+        "enabled": true,
+        "props": {
+          "logo": {
+            "src": "https://timeslanguages.in/assets/timeslang/assets/langlive.png",
+            "alt": "Times Internet Languages Live"
+          },
+          "greetings": [
+            {
+              "text": "नमस्ते",
+              "lang": "hi",
+              "label": "Hindi"
+            },
+            {
+              "text": "வணக்கம்",
+              "lang": "ta",
+              "label": "Tamil"
+            },
+            {
+              "text": "নমস্কার",
+              "lang": "bn",
+              "label": "Bengali"
+            },
+            {
+              "text": "ನಮಸ್ಕಾರ",
+              "lang": "kn",
+              "label": "Kannada"
+            },
+            {
+              "text": "నమస్కారం",
+              "lang": "te",
+              "label": "Telugu"
+            },
+            {
+              "text": "നമസ്കാരം",
+              "lang": "ml",
+              "label": "Malayalam"
+            },
+            {
+              "text": "નમસ્તે",
+              "lang": "gu",
+              "label": "Gujarati"
+            },
+            {
+              "text": "नमस्कार",
+              "lang": "mr",
+              "label": "Marathi"
+            }
+          ],
+          "tagline": "India's grandest stage, *in every language*",
+          "description": "A premium portfolio of vernacular-first event IPs from Times Internet, built across healthcare, education, entertainment & lifestyle, and MSME domains for the audiences, cities, and languages that move modern India.",
+          "cta": {
+            "text": "Express Interest",
+            "action": {
+              "type": "form",
+              "formId": "partner-enquiry"
+            }
+          },
+          "secondaryCta": {
+            "text": "Explore Our Events →",
+            "action": {
+              "type": "url",
+              "url": "#events",
+              "target": "_self"
+            }
+          },
+          "carousel": {
+            "autoplay": true,
+            "intervalMs": 6000,
+            "pauseOnHover": true,
+            "respectReducedMotion": true,
+            "watermark": {
+              "position": "bottom-right",
+              "opacity": 0.85
+            },
+            "media": [
+              {
+                "type": "video",
+                "src": "assets/hero/delhi_one.webm",
+                "alt": "Highlights from Times Internet Languages Live events in Delhi"
+              },
+              {
+                "type": "image",
+                "src": "https://static.langimg.com/photo/132278264.cms",
+                "alt": "Nivesh Baithak: Delhi Edition",
+                "watermark": {
+                  "eventName": "Nivesh Baithak: Delhi Edition",
+                  "dateText": "Sep 27, 2026"
+                }
+              },
+              {
+                "type": "image",
+                "src": "https://images.pexels.com/photos/6565255/pexels-photo-6565255.jpeg",
+                "alt": "VK Real Estate Awards & Summit",
+                "watermark": {
+                  "eventName": "VK Real Estate Awards & Summit",
+                  "dateText": "25 Sep, 2026"
+                }
+              },
+              {
+                "type": "image",
+                "src": "https://static.langimg.com/photo/132710689.cms",
+                "alt": "Astro Mahasangam",
+                "watermark": {
+                  "eventName": "Astro Mahasangam",
+                  "dateText": "19 Sep, 2026"
+                }
+              },
+              {
+                "type": "image",
+                "src": "https://images.pexels.com/photos/7616700/pexels-photo-7616700.jpeg?auto=compress&cs=tinysrgb&w=1200",
+                "alt": "Times Study Abroad Conclave",
+                "watermark": {
+                  "eventName": "Times Study Abroad Conclave",
+                  "dateText": "Jul, 2026"
+                }
+              }
+            ]
+          },
+          "featuredEventId": "tfm-bengaluru",
+          "nextLabel": "Next up",
+          "cities": [
+            {
+              "name": "Delhi",
+              "native": "दिल्ली",
+              "lang": "hi"
+            },
+            {
+              "name": "Mumbai",
+              "native": "मुंबई",
+              "lang": "mr"
+            },
+            {
+              "name": "Pune",
+              "native": "पुणे",
+              "lang": "mr"
+            },
+            {
+              "name": "Jaipur",
+              "native": "जयपुर",
+              "lang": "hi"
+            },
+            {
+              "name": "Bhopal",
+              "native": "भोपाल",
+              "lang": "hi"
+            },
+            {
+              "name": "Patna",
+              "native": "पटना",
+              "lang": "hi"
+            },
+            {
+              "name": "Lucknow",
+              "native": "लखनऊ",
+              "lang": "hi"
+            },
+            {
+              "name": "Chennai",
+              "native": "சென்னை",
+              "lang": "ta"
+            },
+            {
+              "name": "Ahmedabad",
+              "native": "અમદાવાદ",
+              "lang": "gu"
+            },
+            {
+              "name": "Hyderabad",
+              "native": "హైదరాబాద్",
+              "lang": "te"
+            },
+            {
+              "name": "Bengaluru",
+              "native": "ಬೆಂಗಳೂರು",
+              "lang": "kn"
+            },
+            {
+              "name": "Surat",
+              "native": "સુરત",
+              "lang": "gu"
+            }
+          ]
+        }
+      },
+      {
+        "id": "about",
+        "component": "AboutUs",
+        "enabled": true,
+        "props": {
+          "heading": "About *Us*",
+          "content": [
+            "Built for India's diverse audiences, Times Internet Languages Live curates region-first events across healthcare, education, entertainment, lifestyle, and MSMEs. Each experience is designed for a regional audience, grounded in regional context, and focused on real decisions, business, careers, and growth.",
+            "From focused gatherings to large-format summits, we bring together policymakers, industry leaders, and communities to exchange practical insight and create direct, high-value connections both on-ground and online."
+          ]
+        }
+      },
+      {
+        "id": "events",
+        "component": "EventGrid",
+        "enabled": true,
+        "props": {
+          "subheading": "Flagship Events",
+          "heading": "Find your *moment* in the spotlight.",
+          "groups": [
+            {
+              "status": "upcoming",
+              "kicker": "What's next",
+              "title": "Upcoming Events",
+              "countLabel": "on the calendar",
+              "layout": "bento"
+            },
+            {
+              "status": "past",
+              "kicker": "A look back",
+              "title": "Past Events",
+              "countLabel": "completed",
+              "layout": "rail"
+            }
+          ],
+          "cards": [
+            {
+              "id": "tfm-bengaluru",
+              "status": "upcoming",
+              "audience": "B2C",
+              "language": "en",
+              "category": "Healthcare / Maternity",
+              "name": "Times Future of Maternity: South Edition 2026",
+              "shortDescription": "Meet the doctors, hospitals, specialists, innovators, and trusted brands helping families across South India make informed choices.",
+              "dateText": "October 2026",
+              "dateISO": "2026-10",
+              "venue": "Bengaluru",
+              "tags": [
+                "Maternity Care",
+                "Pregnancy",
+                "Fertility",
+                "Healthcare Summit",
+                "Expo"
+              ],
+              "cta": {
+                "text": "Explore more →",
+                "action": {
+                  "type": "url",
+                  "url": "https://timeslanguages.in/tfm-blr",
+                  "target": "_blank",
+                  "appendUtm": true
+                }
+              },
+              "image": {
+                "src": "https://static.langimg.com/photo/133531382.cms",
+                "alt": "Times Future of Maternity South Edition 2026 in Bengaluru",
+                "fallback": {
+                  "bgColor": "#A93622",
+                  "textColor": "#FFFFFF"
+                }
+              }
+            },
+            {
+              "id": "nivesh-baithak-surat",
+              "status": "upcoming",
+              "audience": "B2C",
+              "language": "hi",
+              "category": "Finance / Investor Education",
+              "name": "Nivesh Baithak: Surat Edition",
+              "shortDescription": "A Hindi-first investor education summit for everyday investors, learners, and wealth creators.",
+              "dateText": "October 2026",
+              "dateISO": "2026-10",
+              "venue": "Surat",
+              "tags": [
+                "Investor Education",
+                "Hindi-first",
+                "Stocks & Funds",
+                "Risk Literacy",
+                "Financial Learning"
+              ],
+              "cta": {
+                "text": "Explore more →",
+                "action": {
+                  "type": "url",
+                  "url": "https://timeslanguages.in/nivesh-baithak/surat",
+                  "target": "_blank",
+                  "appendUtm": true
+                }
+              },
+              "image": {
+                "src": "https://static.langimg.com/photo/132278264.cms",
+                "alt": "Nivesh Baithak: Surat Edition",
+                "fallback": {
+                  "bgColor": "#5B3F9B",
+                  "textColor": "#FFFFFF"
+                }
+              }
+            },
+            {
+              "id": "india-msme-dialogue",
+              "status": "upcoming",
+              "audience": "B2B",
+              "language": "hi",
+              "category": "MSME",
+              "name": "India MSME Dialogue: Atmanirbhar Udyam | Atmanirbhar Bharat",
+              "shortDescription": "A multi-state, multi-language platform uniting regional MSMEs.",
+              "dateText": "September 2026",
+              "dateISO": "2026-09",
+              "venue": "Uttar Pradesh",
+              "tags": [
+                "MSME Growth",
+                "Clusters",
+                "Atmanirbhar",
+                "Entrepreneurs",
+                "Small Business"
+              ],
+              "cta": {
+                "text": "Explore more →",
+                "action": {
+                  "type": "url",
+                  "url": "https://timeslanguages.in/msme",
+                  "target": "_blank",
+                  "appendUtm": true
+                }
+              },
+              "image": {
+                "src": "https://images.pexels.com/photos/31321004/pexels-photo-31321004.jpeg",
+                "alt": "India MSME Dialogue",
+                "fallback": {
+                  "bgColor": "#00796B",
+                  "textColor": "#FFFFFF"
+                }
+              }
+            },
+            {
+              "id": "nivesh-baithak-delhi",
+              "status": "past",
+              "audience": "B2C",
+              "language": "hi",
+              "category": "Finance / Investor Education",
+              "name": "Nivesh Baithak: Delhi Edition",
+              "shortDescription": "A Hindi-first investor education summit for everyday investors, learners, and wealth creators.",
+              "dateText": "Sep 27, 2026",
+              "dateISO": "2026-09-27",
+              "venue": "New Delhi",
+              "tags": [
+                "Investor Education",
+                "Hindi-first",
+                "Stocks & Funds",
+                "Risk Literacy",
+                "Financial Learning"
+              ],
+              "cta": {
+                "text": "Explore more →",
+                "action": {
+                  "type": "url",
+                  "url": "https://timeslanguages.in/nivesh-baithak/delhi",
+                  "target": "_blank",
+                  "appendUtm": true
+                }
+              },
+              "image": {
+                "src": "https://static.langimg.com/photo/132278264.cms",
+                "alt": "Nivesh Baithak: Delhi Edition",
+                "fallback": {
+                  "bgColor": "#5B3F9B",
+                  "textColor": "#FFFFFF"
+                }
+              }
+            },
+            {
+              "id": "vk-real-estate-awards",
+              "status": "past",
+              "audience": "B2B",
+              "language": "kn",
+              "category": "Real Estate",
+              "name": "VK Real Estate Awards & Summit",
+              "shortDescription": "India's largest gathering of the real estate ecosystem in Bengaluru.",
+              "dateText": "25 Sep, 2026",
+              "dateISO": "2026-09-25",
+              "venue": "Bangalore",
+              "tags": [
+                "Real Estate",
+                "Housing",
+                "Infrastructure",
+                "Investment",
+                "Urban Development"
+              ],
+              "cta": {
+                "text": "Explore more →",
+                "action": {
+                  "type": "url",
+                  "url": "https://timeslanguages.in/vkrealestate",
+                  "target": "_blank",
+                  "appendUtm": true
+                }
+              },
+              "image": {
+                "src": "https://images.pexels.com/photos/6565255/pexels-photo-6565255.jpeg",
+                "alt": "VK Real Estate Awards & Summit",
+                "fallback": {
+                  "bgColor": "#00796B",
+                  "textColor": "#FFFFFF"
+                }
+              }
+            },
+            {
+              "id": "astro-mahasangam",
+              "status": "past",
+              "audience": "B2C",
+              "language": "hi",
+              "category": "Astro / Spiritual Wellness",
+              "name": "Astro Mahasangam",
+              "shortDescription": "A marquee conclave, awards, expo, and consultation platform for Vedic sciences and conscious living.",
+              "dateText": "19 Sep, 2026",
+              "dateISO": "2026-09-19",
+              "venue": "New Delhi",
+              "tags": [
+                "Astrology",
+                "Conclave",
+                "Awards",
+                "Expo",
+                "Consultation Zone"
+              ],
+              "cta": {
+                "text": "Explore more →",
+                "action": {
+                  "type": "url",
+                  "url": "https://timeslanguages.in/astro-mahasangam",
+                  "target": "_blank",
+                  "appendUtm": true
+                }
+              },
+              "image": {
+                "src": "https://static.langimg.com/photo/132710689.cms",
+                "alt": "Astro Mahasangam",
+                "fallback": {
+                  "bgColor": "#B3003B",
+                  "textColor": "#FFFFFF"
+                }
+              }
+            },
+            {
+              "id": "times-study-abroad-conclave",
+              "status": "past",
+              "audience": "B2C",
+              "language": "en",
+              "category": "Education / Study Abroad",
+              "name": "Times Study Abroad Conclave",
+              "shortDescription": "A trusted platform for informed decision making for studying abroad.",
+              "dateText": "Jul, 2026",
+              "dateISO": "2026-07",
+              "venue": "New Delhi",
+              "tags": [
+                "Study Abroad",
+                "Visas & Scholarships",
+                "Global Careers",
+                "Colleges",
+                "Universities"
+              ],
+              "cta": {
+                "text": "Explore more →",
+                "action": {
+                  "type": "url",
+                  "url": "https://timesstudyabroad.com/",
+                  "target": "_blank",
+                  "appendUtm": true
+                }
+              },
+              "image": {
+                "src": "https://images.pexels.com/photos/7616700/pexels-photo-7616700.jpeg?auto=compress&cs=tinysrgb&w=1200",
+                "alt": "Times Study Abroad Conclave",
+                "fallback": {
+                  "bgColor": "#2E3A87",
+                  "textColor": "#FFFFFF"
+                }
+              }
+            },
+            {
+              "id": "tfm-delhi-2026",
+              "status": "past",
+              "audience": "B2C",
+              "language": "en",
+              "category": "Healthcare / Maternity",
+              "name": "Times Future of Maternity 2026 - Delhi Edition",
+              "shortDescription": "Integrated platform dedicated to discussing maternal and child health.",
+              "dateText": "Mar 28, 2026",
+              "dateISO": "2026-03-28",
+              "venue": "New Delhi",
+              "tags": [
+                "Maternity Care",
+                "IVF & Fertility",
+                "Pregnancy",
+                "Motherhood",
+                "Wellness"
+              ],
+              "cta": {
+                "text": "Explore more →",
+                "action": {
+                  "type": "url",
+                  "url": "https://pregatips.com/events/times-future-of-maternity-2026",
+                  "target": "_blank",
+                  "appendUtm": true
+                }
+              },
+              "image": {
+                "src": "https://static.langimg.com/photo/130486561.cms",
+                "alt": "Times Future of Maternity 2026",
+                "fallback": {
+                  "bgColor": "#A93622",
+                  "textColor": "#FFFFFF"
+                }
+              }
+            }
+          ],
+          "description": "From boardroom-grade B2B forums to citizen summits, each Languages Live IP is built for a region, a language and an audience. Find one near you, or one that fits your brand."
+        }
+      },
+      {
+        "id": "speakers",
+        "component": "PastSpeakers",
+        "enabled": true,
+        "props": {
+          "$comment": "PLACEHOLDER people and photos (generated illustrations). Replace names, designations, organisations and photo paths with real past speakers.",
+          "heading": "Voices That Have *Graced* Our Stage",
+          "description": "Policymakers, regulators, industry leaders and domain experts who have shared our stages, speaking to India in its own languages.",
+          "tables": [
+            {
+              "id": "dignitaries",
+              "title": "Key Dignitaries",
+              "variant": "featured",
+              "people": [
+                {
+                  "photo": "assets/people/dignitary-01.svg",
+                  "name": "Dr. Rajesh Khanna",
+                  "designation": "Hon'ble Minister of State",
+                  "organization": "Ministry of MSME"
+                },
+                {
+                  "photo": "assets/people/dignitary-02.svg",
+                  "name": "Smt. Lakshmi Narayanan",
+                  "designation": "Principal Secretary, Industries",
+                  "organization": "State Government"
+                },
+                {
+                  "photo": "assets/people/dignitary-03.svg",
+                  "name": "Shri Arvind Deshmukh",
+                  "designation": "Chairperson",
+                  "organization": "Industry Development Authority"
+                }
+              ]
+            },
+            {
+              "id": "speakers",
+              "title": "Speakers",
+              "variant": "grid",
+              "people": [
+                {
+                  "photo": "assets/people/speaker-01.svg",
+                  "name": "Riya Banerjee",
+                  "designation": "Founder & CEO",
+                  "organization": "Bharat Kirana Tech"
+                },
+                {
+                  "photo": "assets/people/speaker-02.svg",
+                  "name": "Arjun Iyer",
+                  "designation": "Chief Investment Officer",
+                  "organization": "Sample Asset Management"
+                },
+                {
+                  "photo": "assets/people/speaker-03.svg",
+                  "name": "Dr. Meenal Joshi",
+                  "designation": "Senior Gynaecologist",
+                  "organization": "Sample Women's Hospital"
+                },
+                {
+                  "photo": "assets/people/speaker-04.svg",
+                  "name": "Karthik Gowda",
+                  "designation": "Managing Director",
+                  "organization": "Sample Realty"
+                },
+                {
+                  "photo": "assets/people/speaker-05.svg",
+                  "name": "Sneha Desai",
+                  "designation": "Certified Financial Planner",
+                  "organization": "Independent"
+                },
+                {
+                  "photo": "assets/people/speaker-06.svg",
+                  "name": "Imran Qureshi",
+                  "designation": "Co-founder",
+                  "organization": "Sample EdTech"
+                },
+                {
+                  "photo": "assets/people/speaker-07.svg",
+                  "name": "Pooja Malhotra",
+                  "designation": "Wellness Expert",
+                  "organization": "Sample Wellness Studio"
+                },
+                {
+                  "photo": "assets/people/speaker-08.svg",
+                  "name": "Vikram Chauhan",
+                  "designation": "Director, Exports",
+                  "organization": "Sample Exports Council"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "brands",
+        "component": "BrandWall",
+        "enabled": true,
+        "props": {
+          "$comment": "PLACEHOLDER logos (generated wordmarks of fictional brands). Replace with real partner logos; the `order` field controls display order.",
+          "heading": "Brands That *Trust* Us",
+          "subheading": "Partners who reach Bharat with us",
+          "description": "Banks, asset managers, hospitals, developers and consumer brands partner with Times Internet Languages Live to connect with regional audiences in their own language.",
+          "logos": [
+            {
+              "order": 1,
+              "src": "assets/brands/brand-01.svg",
+              "alt": "NOVAPAY logo"
+            },
+            {
+              "order": 2,
+              "src": "assets/brands/brand-02.svg",
+              "alt": "Grihaa logo"
+            },
+            {
+              "order": 3,
+              "src": "assets/brands/brand-03.svg",
+              "alt": "KISAN·CO logo"
+            },
+            {
+              "order": 4,
+              "src": "assets/brands/brand-04.svg",
+              "alt": "Suraksha logo"
+            },
+            {
+              "order": 5,
+              "src": "assets/brands/brand-05.svg",
+              "alt": "EduRaah logo"
+            },
+            {
+              "order": 6,
+              "src": "assets/brands/brand-06.svg",
+              "alt": "Tarang logo"
+            },
+            {
+              "order": 7,
+              "src": "assets/brands/brand-07.svg",
+              "alt": "BharatMart logo"
+            },
+            {
+              "order": 8,
+              "src": "assets/brands/brand-08.svg",
+              "alt": "Aarogya+ logo"
+            },
+            {
+              "order": 9,
+              "src": "assets/brands/brand-09.svg",
+              "alt": "UrbanNest logo"
+            },
+            {
+              "order": 10,
+              "src": "assets/brands/brand-10.svg",
+              "alt": "FinSetu logo"
+            }
+          ]
+        }
+      },
+      {
+        "id": "universes",
+        "component": "WhyTLLLive",
+        "enabled": true,
+        "props": {
+          "subheading": "Why Times Internet Languages Live?",
+          "heading": "Strong Speakers. Relevant Audiences. *Outcome-Driven* Events.",
+          "description": "We bring regional business leaders, policymakers, and domain experts together with a credible media voice to address real issues – from local healthcare access and education gaps to MSME growth and evolving consumer trends.",
+          "cards": [
+            {
+              "order": 1,
+              "number": "01",
+              "heading": "Education",
+              "description": "Study abroad, career counselling, college discovery, and skilling – shaping futures through expert discussions."
+            },
+            {
+              "order": 2,
+              "number": "02",
+              "heading": "Healthcare",
+              "description": "Conversations on maternity, fertility, wellness, and family health with vital insights for better lives."
+            },
+            {
+              "order": 3,
+              "number": "03",
+              "heading": "Entertainment & Lifestyle",
+              "description": "Spotlighting creator discovery, Hindi-first culture, talent stages, and city rounds to ignite your passion."
+            },
+            {
+              "order": 4,
+              "number": "04",
+              "heading": "MSME",
+              "description": "Forums for policy dialogue, business solutions, market access, and scalability for small businesses."
+            }
+          ]
+        }
+      },
+      {
+        "id": "partners",
+        "component": "PartnerB2B",
+        "enabled": true,
+        "props": {
+          "subheading": "For Partners",
+          "heading": "Partner with Times Internet Languages Live - *Built Around Your Objectives.*",
+          "description": "Work with us to position your brand in regional markets, communicate with clarity to local audiences, and build relationships that convert.",
+          "cta": {
+            "text": "Partner with Us →",
+            "action": {
+              "type": "form",
+              "formId": "partner-enquiry"
+            }
+          },
+          "cards": [
+            {
+              "heading": "Thought Leadership",
+              "description": "Position your brand as a domain authority."
+            },
+            {
+              "heading": "Decision-Maker Access",
+              "description": "Engage with policymakers, industry leaders, experts."
+            },
+            {
+              "heading": "Regional Brand Relevance",
+              "description": "Speak to local audiences in their language."
+            },
+            {
+              "heading": "Multi-City Exposure",
+              "description": "Active across 10+ Indian cities."
+            },
+            {
+              "heading": "Audience Insights",
+              "description": "First-party data from high-intent communities."
+            },
+            {
+              "heading": "Speaking Slots",
+              "description": "Own the stage. Drive the conversation."
+            }
+          ]
+        }
+      },
+      {
+        "id": "faq",
+        "component": "FAQAccordion",
+        "enabled": true,
+        "props": {
+          "heading": "Everything you wanted to *ask.*",
+          "subheading": "FAQs",
+          "questions": [
+            {
+              "order": 1,
+              "question": "What is Times Internet Languages Live?",
+              "answer": "Times Internet Languages Live is the vernacular-first events arm of Times Internet - a curated portfolio of region-first experiences across healthcare, education, entertainment & lifestyle, and MSMEs, built for the audiences, cities, and languages that move modern India."
+            },
+            {
+              "order": 2,
+              "question": "Which domains do Times Internet Languages Live events cover?",
+              "answer": "Our events span healthcare, education, entertainment & lifestyle, and MSMEs - each designed for a regional audience, grounded in regional context, and focused on real decisions like business growth, careers, and community health."
+            },
+            {
+              "order": 3,
+              "question": "What are the flagship events?",
+              "answer": "Our flagship IPs include Times Future of Maternity, Times Study Abroad Conclave, Nivesh Baithak, Astro Mahasangam, VK Real Estate Awards & Summit, and India MSME Dialogue."
+            },
+            {
+              "order": 4,
+              "question": "How can brands partner with Times Internet Languages Live?",
+              "answer": "We offer tailored formats - from speaking slots and title sponsorships to integrated regional campaigns. Write to gaurav.vats@timesinternet.in for the partnership deck."
+            },
+            {
+              "order": 5,
+              "question": "How do I attend or register?",
+              "answer": "Every event has its own microsite linked from the calendar above. Tap the primary action on any card to register, view the agenda, or claim a counselling slot."
+            }
+          ]
+        }
+      },
+      {
+        "id": "newsletter",
+        "component": "NewsletterSSO",
+        "enabled": true,
+        "props": {
+          "heading": "Never miss *an event.*",
+          "subheading": "The Languages Live Brief",
+          "description": "Subscribe for early access to event announcements, city dates, speaker line-ups and partnership openings. One curated email a month, no spam. Sign in once with your Times account to opt in.",
+          "cta": {
+            "text": "Sign in & Subscribe",
+            "action": {
+              "type": "sso-optin"
+            }
+          }
+        }
+      },
+      {
+        "id": "contact",
+        "component": "ContactSPOC",
+        "enabled": true,
+        "props": {
+          "heading": "Get in *Touch*",
+          "subheading": "Contact Us",
+          "description": "Reach out to our team for any inquiries or support.",
+          "cards": [
+            {
+              "category": "General Query",
+              "name": "Avnish Singh",
+              "phone": "+91 7669138964",
+              "email": "avnish.singh@timesinternet.in",
+              "icon": "chat"
+            },
+            {
+              "category": "Award Nominations",
+              "name": "Sagun Kumari",
+              "phone": "+91 9304412377",
+              "email": "sagun.kumari@timesinternet.in",
+              "icon": "trophy"
+            },
+            {
+              "category": "Speaking Opportunity",
+              "name": "Simran Singh",
+              "phone": "+91 7838788554",
+              "email": "simran1@timesinternet.in",
+              "icon": "mic"
+            },
+            {
+              "category": "Sponsorships",
+              "name": "Gaurav Vats",
+              "phone": "+91 9811573962",
+              "email": "gaurav.vats@timesinternet.in",
+              "icon": "briefcase"
+            }
+          ]
+        }
+      },
+      {
+        "id": "footer",
+        "component": "Footer",
+        "enabled": true,
+        "props": {
+          "logo": {
+            "src": "https://timeslanguages.in/assets/timeslang/assets/langlive.png",
+            "alt": "Times Internet Languages Live",
+            "href": "#top"
+          },
+          "description": "Region-first events across healthcare, education, entertainment & lifestyle, and MSMEs - bringing policymakers, industry leaders, and communities together for real outcomes.",
+          "socials": [
+            {
+              "icon": "linkedin",
+              "label": "LinkedIn",
+              "url": "https://www.linkedin.com/company/times-languages-live/",
+              "appendUtm": false
+            },
+            {
+              "icon": "facebook",
+              "label": "Facebook",
+              "url": "https://www.facebook.com/profile.php?id=61589492833800",
+              "appendUtm": false
+            },
+            {
+              "icon": "x",
+              "label": "X / Twitter",
+              "url": "https://x.com/timeslanglive",
+              "appendUtm": false
+            },
+            {
+              "icon": "youtube",
+              "label": "YouTube",
+              "url": "https://www.youtube.com/@timeslanguageslive",
+              "appendUtm": false
+            },
+            {
+              "icon": "instagram",
+              "label": "Instagram",
+              "url": "https://www.instagram.com/timeslanguages",
+              "appendUtm": false
+            }
+          ],
+          "tables": [
+            {
+              "heading": "Domains",
+              "items": [
+                {
+                  "label": "Education",
+                  "href": "#events"
+                },
+                {
+                  "label": "Healthcare",
+                  "href": "#events"
+                },
+                {
+                  "label": "Entertainment & Lifestyle",
+                  "href": "#events"
+                },
+                {
+                  "label": "MSME",
+                  "href": "#events"
+                }
+              ]
+            },
+            {
+              "heading": "Company",
+              "items": [
+                {
+                  "label": "For Partners",
+                  "href": "#partners"
+                },
+                {
+                  "label": "FAQs",
+                  "href": "#faq"
+                },
+                {
+                  "label": "Contact Sales",
+                  "href": "mailto:gaurav.vats@timesinternet.in"
+                },
+                {
+                  "label": "Times Internet",
+                  "href": "https://www.timesinternet.in/",
+                  "external": true
+                },
+                {
+                  "label": "Privacy Policy",
+                  "href": "https://timeslanguages.in/privacypolicy"
+                },
+                {
+                  "label": "Terms of Service",
+                  "href": "https://timeslanguages.in/termsandconditions"
+                },
+                {
+                  "label": "Cancellation & Refund Policy",
+                  "href": "https://timeslanguages.in/cancellationpolicy"
+                }
+              ]
+            }
+          ],
+          "copyrightText": "{year} Times Internet Languages Live. All rights reserved.",
+          "wordmark": "Languages Live"
+        }
+      }
+    ]
+  }
+}
