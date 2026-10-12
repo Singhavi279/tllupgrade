@@ -1,6 +1,6 @@
 // Times Internet Languages Live v2 - config.json -> native components. Pure ES modules, zero dependencies.
 import { $, $$, h, svg, icon, rich, litWords, rangoli, onMount, flushMount } from './lib/dom.js';
-import { tilt, initSpot, magnet, dragScroll, railArrows, marquee, ambient, intro, REDUCE } from './lib/fx.js';
+import { tilt, initSpot, magnet, dragScroll, railArrows, arrows, marquee, ambient, intro, REDUCE } from './lib/fx.js';
 import { initForms, openForm, startSSO, handleSSOReturn } from './lib/forms.js';
 import { setStrings, t } from './lib/ui.js';
 
@@ -179,9 +179,11 @@ const Components = {
       let body, tools = null;
       if (rail && !REDUCE) {
         // Past events drift past on their own; hover pauses, so a card can be read and clicked.
+        // Hover/focus/touch pauses the drift; swipe, drag, arrow buttons and Left/Right keys scrub it by hand.
         const track = h('div', { class: 'mq-track', 'data-ambient': '' });
-        body = h('div', { class: 'mq mq--cards' }, track);
-        let n = 0; onMount(() => marquee(body, track, () => { const first = !n++; return h('div', { class: 'mq-set' }, list.map((c, i) => card(c, i, !first))); }, { speed: 36 }));
+        body = h('div', { class: 'mq mq--cards', role: 'region', 'aria-label': g.title }, track);
+        let n = 0, mq; onMount(() => { mq = marquee(body, track, () => { const first = !n++; return h('div', { class: 'mq-set' }, list.map((c, i) => card(c, i, !first))); }, { speed: 36, interactive: true }); });
+        tools = arrows(d => mq?.step(d));
       } else if (rail) {
         body = h('ul', { class: 'rail' }, list.map((c, i) => h('li', {}, card(c, i)))); dragScroll(body); tools = railArrows(body);
       } else body = h('div', { class: 'cards' }, list.map((c, i) => card(c, i)));
@@ -202,8 +204,9 @@ const Components = {
       const rail = t.variant !== 'featured';
       let list, tools = null;
       if (rail && !REDUCE) {
-        const track = h('div', { class: 'mq-track', 'data-ambient': '' }); list = h('div', { class: `mq mq--people${/2|second|alumni/i.test(t.variant) ? ' mq--rev' : ''}` }, track);
-        onMount(() => marquee(list, track, () => h('ul', { class: 'mq-set' }, t.people.map(person)), { speed: 30 }));
+        const rev = /2|second|alumni/i.test(t.variant), track = h('div', { class: 'mq-track', 'data-ambient': '' }); list = h('div', { class: `mq mq--people${rev ? ' mq--rev' : ''}`, role: 'region', 'aria-label': t.title }, track);
+        let mq; onMount(() => { mq = marquee(list, track, () => h('ul', { class: 'mq-set' }, t.people.map(person)), { speed: 30, interactive: true, dir: rev ? -1 : 1 }); });
+        tools = arrows(d => mq?.step(d));
       } else {
         list = h('ul', { class: rail ? 'rail rail--people' : 'vip-grid' }, t.people.map(person));
         if (rail) { dragScroll(list); tools = railArrows(list); }

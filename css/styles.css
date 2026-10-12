@@ -108,6 +108,13 @@
   .mq { overflow: hidden; mask-image: linear-gradient(90deg, #0000, #000 5%, #000 95%, #0000); }
   .mq-track { display: flex; width: max-content; animation: mq var(--mq-dur, 40s) linear infinite; }
   .mq--rev .mq-track { animation-direction: reverse; }
+  /* Interactive marquee: a real scroller (swipe, drag, arrows, keys) that JS drifts; no CSS animation. */
+  .mq--scroll { overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; cursor: grab; }
+  .mq--scroll::-webkit-scrollbar { display: none; }
+  .mq--scroll .mq-track { animation: none; }
+  .mq--scroll.dragging { cursor: grabbing; user-select: none; }
+  .mq--scroll.dragging a { pointer-events: none; }
+  .mq--scroll:focus-visible { outline: 2px solid var(--c-brand); outline-offset: -2px; border-radius: var(--r); }
   .mq:hover .mq-track { animation-play-state: paused; }
   .mq-set { display: flex; align-items: center; flex: none; gap: var(--mq-gap, 1rem); padding-right: var(--mq-gap, 1rem); }
 
@@ -377,7 +384,10 @@
   .contacts a .ico { color: var(--muted); flex-shrink: 0; width: 14px; height: 14px; }
   @media (max-width: 1040px) {
     .contacts { display: flex; flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: .85rem; -webkit-overflow-scrolling: touch; }
-    .contacts > .contact-card { flex: 0 0 clamp(220px, 28vw, 245px); scroll-snap-align: start; margin-bottom: 0; }
+    /* Not a grid item here, so the subgrid rows collapse to zero height and hide the text: use plain rows. */
+    .contacts > .contact-card { flex: 0 0 clamp(250px, 34vw, 280px); scroll-snap-align: start; margin-bottom: 0; grid-row: auto; grid-template-rows: none; grid-auto-rows: min-content; }
+    .contacts a { font-size: .85rem; }
+    .contacts .cat { font-size: .7rem; }
   }
 
   /* =============== FOOTER =============== */
