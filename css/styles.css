@@ -2,6 +2,14 @@
    Layers: reset -> tokens -> base -> layout -> ui -> sections -> motion. No frameworks, no build step. */
 @layer reset, tokens, base, layout, ui, sections, motion;
 
+/* Metric-matched stand-ins for the web fonts: same advance widths and line box, so when Mukta / Inter / Instrument Serif
+   arrive nothing reflows. Numbers measured against the real fonts (canvas measureText vs Arial / Times New Roman). */
+@font-face { font-family: 'Mukta Fallback'; src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'); font-weight: 500 800; size-adjust: 93.37%; ascent-override: 121%; descent-override: 56.8%; line-gap-override: 0%; }
+@font-face { font-family: 'Inter Fallback'; src: local('Arial'), local('ArialMT'), local('Liberation Sans'); font-weight: 400 500; size-adjust: 107%; ascent-override: 90.6%; descent-override: 22.4%; line-gap-override: 0%; }
+@font-face { font-family: 'Inter Fallback'; src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'); font-weight: 600 800; size-adjust: 102.5%; ascent-override: 94.6%; descent-override: 23.4%; line-gap-override: 0%; }
+@font-face { font-family: 'Instrument Serif Fallback'; src: local('Times New Roman'), local('TimesNewRomanPSMT'), local('Liberation Serif'); font-style: normal; size-adjust: 82.9%; ascent-override: 119.4%; descent-override: 37.4%; line-gap-override: 0%; }
+@font-face { font-family: 'Instrument Serif Fallback'; src: local('Times New Roman Italic'), local('TimesNewRomanPS-ItalicMT'), local('Liberation Serif Italic'); font-style: italic; size-adjust: 87%; ascent-override: 113.8%; descent-override: 35.6%; line-gap-override: 0%; }
+
 @layer reset {
   *, *::before, *::after { box-sizing: border-box; }
   * { margin: 0; }
@@ -18,8 +26,8 @@
     /* Regional palette (overridden by config.json → global.theme.colors) */
     --c-brand: #C8102E; --c-saffron: #FF9933; --c-haldi: #F4B400; --c-peacock: #00796B;
     --c-indigo: #2E3A87; --c-kumkum: #B3003B; --c-ink: #14110F; --c-paper: #FBF7F0; --c-muted: #6B635A;
-    --font-display: 'Mukta', system-ui, sans-serif; --font-body: 'Inter', system-ui, sans-serif;
-    --font-accent: 'Instrument Serif', Georgia, serif;
+    --font-display: 'Mukta', 'Mukta Fallback', system-ui, sans-serif; --font-body: 'Inter', 'Inter Fallback', system-ui, sans-serif;
+    --font-accent: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, serif;
     --cream: #F6F1E7; --cream-2: #EEE6D6;
 
     --surface: var(--cream); --surface-2: #fff; --text: var(--c-ink); --muted: #5E564C; --line: rgb(20 17 15 / .13);
@@ -83,7 +91,7 @@
   .btn--sm { padding: .55rem 1.05rem; font-size: .9rem; } .btn--lg { padding: 1.05rem 1.9rem; font-size: 1.05rem; }
 
   /* ---------- Chips / tags / meta ---------- */
-  .chip { display: inline-flex; align-items: center; gap: .45rem; padding: .38rem .8rem; border-radius: 999px; font: 700 .68rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; background: rgb(0 0 0 / .45); border: 1px solid rgb(255 255 255 / .28); color: #fff; }
+  .chip { display: inline-flex; align-items: center; gap: .45rem; padding: .38rem .8rem; border-radius: 999px; font: 700 .72rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; background: rgb(0 0 0 / .45); border: 1px solid rgb(255 255 255 / .28); color: #fff; }
   .chip--upcoming::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--c-haldi); box-shadow: 0 0 0 0 var(--c-haldi); animation: ping 1.8s infinite; }
   .tags { display: flex; flex-wrap: wrap; gap: .4rem; }
   .tags li { padding: .22rem .65rem; border: 1px solid rgb(255 255 255 / .3); border-radius: 999px; font-size: .74rem; color: rgb(255 255 255 / .88); }
@@ -217,7 +225,7 @@
   .city--greet b { color: rgb(255 255 255 / .85); }
   .city::after { content: '✦'; margin-left: 1.7rem; font-size: .7rem; color: var(--c-saffron); }
   .city:nth-child(5n+2)::after { color: var(--c-haldi); } .city:nth-child(5n+3)::after { color: #35c2a8; } .city:nth-child(5n+4)::after { color: #8a97ff; } .city:nth-child(5n)::after { color: #ff5a7e; }
-  @media (max-width: 700px) { .hero-copy { padding-block: 9.5rem 8.2rem; } .wm--bottom-right { bottom: 7.2rem; right: var(--pad); } .pips { bottom: 4.6rem; }  }
+  @media (max-width: 700px) { .hero-copy { padding-block: 9.5rem 11rem; } .wm--bottom-right { bottom: 7.2rem; right: var(--pad); } .pips { bottom: 4.6rem; }  }
 
   /* =============== ABOUT =============== */
   .about { padding-top: clamp(2.1rem, 3.6vw, 3.3rem); }
@@ -377,9 +385,10 @@
   .contacts > .contact-card:hover { transform: translateY(-6px); box-shadow: 0 30px 50px -30px rgb(20 17 15 / .35); }
   .contact-ic { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: .4rem; border-radius: 13px; color: #fff; background: linear-gradient(135deg, var(--c-brand), var(--c-saffron)); }
   .contact-ic .ico { width: 20px; height: 20px; }
-  .contacts .cat { font: 700 clamp(0.62rem, 0.7vw, 0.68rem) var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--c-brand); white-space: nowrap; text-wrap: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .contacts .cat { font: 700 clamp(0.7rem, 0.75vw, 0.74rem) var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--c-brand); white-space: nowrap; text-wrap: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .contacts h3 { font-size: clamp(1.1rem, 1.25vw, 1.28rem); white-space: nowrap; text-wrap: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
   .contacts a { display: flex; align-items: center; gap: .45rem; text-decoration: none; font-weight: 550; font-size: clamp(0.72rem, 0.78vw, 0.82rem); white-space: nowrap; text-wrap: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .contacts a { padding-block: .3rem; }   /* ≥ 24px tall hit area (WCAG 2.5.8) */
   .contacts a:hover { color: var(--c-brand); text-decoration: underline; }
   .contacts a .ico { color: var(--muted); flex-shrink: 0; width: 14px; height: 14px; }
   @media (max-width: 1040px) {

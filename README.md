@@ -47,6 +47,13 @@ A small editor for `config.json` (page content, images, UI labels, theme) and `s
 | `node scripts/serve.mjs` (local) | **Save config.json** | Written to disk, `build-seo.mjs` re-run. Uploaded images land under `assets/`. Endpoints answer only to localhost, same-origin requests carrying an `x-admincms` header, and only touch the two JSON files and `assets/*` images. |
 | GitHub Pages / any static host | none — **Download JSON** | Replace the file in the repo with the download, run `node scripts/build-seo.mjs`, commit. A picked image is downloaded too; add it under the path the field now shows. |
 
+**Version history.** The **History** button lists the last 3 states the current file had before it was overwritten, with how many fields differ from the editor. **Restore** loads a version into the editor as an unsaved change; Save (or Download) applies it, and the state it replaced becomes a version in turn. A save that changes nothing creates no version.
+
+- Local mode: the dev server snapshots the file on each changing save into `.admincms-history/<file>/` (git-ignored, never published).
+- Download mode: no server exists, so the browser keeps the state each file was loaded in (taken on the first edit of a session) in `localStorage` — per browser, not shared.
+
+**Live refresh.** After a local save the admin announces it on a same-origin `BroadcastChannel`; any open tab of the site reloads and shows the change. On a static host nothing on the live site changes until the files are committed and deployed.
+
 The page carries `<meta name="robots" content="noindex, nofollow">`. `robots.txt` allows everything, so crawlers can fetch the page and read that tag.
 
 ## Performance switches (`seoconfig.json` → `performance`)

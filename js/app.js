@@ -321,5 +321,7 @@ async function boot() {
   }
   if (location.hash) document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView();
   handleSSOReturn();
+  // The admin CMS announces each save on this same-origin channel; an open tab of the site reloads to show it.
+  try { new BroadcastChannel('tll-content').onmessage = () => location.reload(); } catch {}
 }
 boot();

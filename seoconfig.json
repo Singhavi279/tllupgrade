@@ -38,7 +38,7 @@
       "image": "https://images.pexels.com/photos/8199169/pexels-photo-8199169.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "imageAlt": "Times Internet Languages Live - India's Premium Event Portfolio",
       "imageWidth": 1200,
-      "imageHeight": 630,
+      "imageHeight": 887,
       "description": "A premium portfolio of education, healthcare, lifestyle & entertainment and partnership-led events from Times Internet - built for India's vernacular-first audiences.",
       "imageType": "image/jpeg"
     },
@@ -252,7 +252,7 @@
       "@type": "Organization",
       "name": "Times Internet Languages Live",
       "url": "https://timeslanguages.in",
-      "logo": "https://timeslanguages.in/langlive.png",
+      "logo": "https://timeslanguages.in/assets/brand/langlive.png",
       "sameAs": [
         "https://www.timesinternet.in/",
         "https://www.linkedin.com/company/times-languages-live/",

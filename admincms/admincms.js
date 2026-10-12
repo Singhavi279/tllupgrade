@@ -103,6 +103,7 @@ function groupsFor(tabKey) {
 }
 
 function markDirty(tabKey) {
+  if (!FILES[tabKey].dirty) recordBaseline(tabKey);
   FILES[tabKey].dirty = true;
   document.querySelectorAll('[data-dirty]').forEach(el => { el.hidden = !(FILES.config.dirty || FILES.seo.dirty); });
   const t = document.querySelector(`[data-tab="${tabKey}"] i`); if (t) t.hidden = false;
@@ -240,8 +241,90 @@ function arrayField(tabKey, parent, key, label) {
 }
 
 // ---------------------------------------------------------------------------------------------
+// Version history — the last HISTORY_KEEP states a file had before it was overwritten.
+//   Local save mode: the dev server snapshots the file on every save that changes it.
+//   Download mode:   no server, so the browser keeps the state the file was loaded in (once per session,
+//                    on the first edit) in localStorage. Restoring only loads a version into the editor;
+//                    nothing is written until the person saves/downloads.
+// ---------------------------------------------------------------------------------------------
+const HISTORY_KEEP = 3;
+const LS_HIST = f => `tll-admin-history:${f}`;
+const lsRead = f => { try { return JSON.parse(localStorage.getItem(LS_HIST(f))) ?? []; } catch { return []; } };
+const baselines = {};                  // file → text exactly as loaded, for the local snapshot
+
+function recordBaseline(tabKey) {
+  if (api) return;                     // the server keeps history in this mode
+  const f = FILES[tabKey], text = baselines[tabKey];
+  if (!text || f.baselineSaved) return;
+  f.baselineSaved = true;
+  const list = lsRead(f.name);
+  if (list[0]?.text === text) return;
+  list.unshift({ id: new Date().toISOString(), text });
+  try { localStorage.setItem(LS_HIST(f.name), JSON.stringify(list.slice(0, HISTORY_KEEP))); } catch { toast('Browser storage is full or blocked: version history was not kept.', true); }
+}
+
+async function listVersions(tabKey) {
+  const f = FILES[tabKey];
+  if (api) { const r = await (await apiFetch('history', { file: f.name })).json(); return r.versions.map(v => ({ id: v.id, at: v.at, bytes: v.bytes })); }
+  return lsRead(f.name).map(v => ({ id: v.id, at: v.id, bytes: v.text.length }));
+}
+async function loadVersion(tabKey, id) {
+  const f = FILES[tabKey];
+  if (api) { const res = await apiFetch('version', { file: f.name, id }); const out = await res.json(); if (!res.ok) throw new Error(out.error); return out.data; }
+  const v = lsRead(f.name).find(x => x.id === id); if (!v) throw new Error('version not found'); return JSON.parse(v.text);
+}
+
+/** Leaf-level differences between two JSON values, as readable paths. */
+function diffPaths(a, b, path = '', out = []) {
+  if (out.length > 200) return out;
+  if (a && b && typeof a === 'object' && typeof b === 'object') {
+    for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) diffPaths(a[k], b[k], path ? `${path} › ${k}` : k, out);
+  } else if (JSON.stringify(a) !== JSON.stringify(b)) out.push(path);
+  return out;
+}
+const when = iso => new Date(iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'medium' });
+const sectionName = path => {
+  const m = /^page › sections › (\d+)/.exec(path); const sec = m && FILES.config.data.page?.sections?.[+m[1]];
+  return sec ? (SECTION_LABELS[sec.component] ?? pretty(sec.component)) : path.split(' › ')[0];
+};
+
+async function showHistory() {
+  const tabKey = tab, f = FILES[tabKey];
+  const list = h('div', { class: 'versions' }, h('p', { class: 'hint' }, 'Loading…'));
+  const dlg = h('dialog', { class: 'hist', 'aria-label': `Version history: ${f.name}`, onclose: () => dlg.remove() },
+    h('div', { class: 'hist-head' }, h('h2', {}, 'Version history'), h('span', { class: 'hint' }, f.name), h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Close', onclick: () => dlg.close() }, '✕')),
+    h('p', { class: 'hint' }, api
+      ? `The last ${HISTORY_KEEP} states this file had before a save replaced it. Restoring loads a version into the editor; press Save to apply it (the current state becomes a version too).`
+      : `Download mode keeps the last ${HISTORY_KEEP} states this file was loaded in, in this browser only. Restoring loads a version into the editor; Download to apply it.`),
+    list);
+  document.body.append(dlg); dlg.showModal();
+  try {
+    const versions = await listVersions(tabKey);
+    if (!versions.length) { list.replaceChildren(h('p', { class: 'hint' }, 'No earlier versions yet. One is kept each time a save changes this file.')); return; }
+    const rows = await Promise.all(versions.map(async (v, i) => {
+      const data = await loadVersion(tabKey, v.id), changed = diffPaths(f.data, data);
+      const places = [...new Set(changed.map(sectionName))];
+      return h('div', { class: 'version' },
+        h('div', { class: 'v-main' }, h('strong', {}, `${i === 0 ? 'Previous' : `${i + 1} saves ago`} · ${when(v.at)}`),
+          h('span', { class: 'hint' }, changed.length ? `${changed.length} field${changed.length > 1 ? 's differ' : ' differs'} from the editor: ${places.slice(0, 4).join(', ')}${places.length > 4 ? '…' : ''}` : 'Identical to what is in the editor now'),
+          changed.length ? h('details', {}, h('summary', { class: 'hint' }, 'Show fields'), h('ul', { class: 'v-paths' }, changed.slice(0, 40).map(c => h('li', {}, c)), changed.length > 40 ? h('li', {}, `…and ${changed.length - 40} more`) : null)) : null),
+        h('button', { class: 'btn btn--sm', type: 'button', disabled: !changed.length, onclick: () => {
+          if (f.dirty && !confirm('You have unsaved changes in this file. Replace them with this version?')) return;
+          f.data = data; markDirty(tabKey); dlg.close(); render();
+          toast(`Version from ${when(v.at)} loaded. ${api ? 'Press Save' : 'Press Download'} to apply it.`);
+        } }, 'Restore'));
+    }));
+    list.replaceChildren(...rows);
+  } catch (e) { list.replaceChildren(h('p', { class: 'err' }, `Could not read history: ${e.message}`)); }
+}
+
+// ---------------------------------------------------------------------------------------------
 // Saving
 // ---------------------------------------------------------------------------------------------
+function refreshDirty(tabKey) {
+  document.querySelector(`[data-tab="${tabKey}"] i`)?.setAttribute('hidden', '');
+  document.querySelectorAll('[data-dirty]').forEach(el => { el.hidden = !(FILES.config.dirty || FILES.seo.dirty); });
+}
 const serialise = tabKey => JSON.stringify(FILES[tabKey].data, null, 2) + '\n';
 
 function download(tabKey) {
@@ -249,6 +332,7 @@ function download(tabKey) {
   const url = URL.createObjectURL(new Blob([serialise(tabKey)], { type: 'application/json' }));
   const a = h('a', { href: url, download: f.name }); document.body.append(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+  f.dirty = false; refreshDirty(tabKey); baselines[tabKey] = serialise(tabKey); f.baselineSaved = false;
   toast(`${f.name} downloaded. Replace the file in the repo with it and run node scripts/build-seo.mjs.`);
 }
 
@@ -259,9 +343,9 @@ async function save(tabKey) {
     const res = await apiFetch('save', { file: f.name, data: f.data });
     const out = await res.json();
     if (!res.ok) throw new Error(out.error || res.statusText);
-    f.dirty = false;
-    document.querySelector(`[data-tab="${tabKey}"] i`)?.setAttribute('hidden', '');
-    document.querySelectorAll('[data-dirty]').forEach(el => { el.hidden = !(FILES.config.dirty || FILES.seo.dirty); });
+    f.dirty = false; refreshDirty(tabKey);
+    // Tell any open tab of the site to reload, so the change shows up straight away.
+    try { const ch = new BroadcastChannel('tll-content'); ch.postMessage({ file: f.name, at: Date.now() }); ch.close(); } catch {}
     toast(out.rebuilt ? `${f.name} saved and the site was rebuilt.` : `${f.name} saved, but the rebuild failed: ${out.buildError}`, !out.rebuilt);
   } catch (e) { toast(`Save failed: ${e.message}`, true); }
 }
@@ -304,6 +388,7 @@ async function mountApp() {
     h('header', { class: 'top' },
       h('h1', {}, 'Admin CMS'), apiPill,
       h('a', { class: 'btn btn--ghost btn--sm', href: '../', target: '_blank', rel: 'noopener' }, 'View site ↗'),
+      h('button', { class: 'btn btn--sm', type: 'button', onclick: showHistory }, 'History'),
       h('button', { class: 'btn btn--sm', type: 'button', onclick: () => download(tab) }, 'Download JSON'),
       saveBtn,
       h('span', { class: 'pill' }, `+91 ${session?.phone?.slice(-10) ?? ''}`),
@@ -313,9 +398,12 @@ async function mountApp() {
   try {
     const [c, s] = await Promise.all(['../config.json', '../seoconfig.json'].map(u => fetch(u, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(`${u}: ${r.status}`); return r.json(); })));
     FILES.config.data = c; FILES.seo.data = s;
+    baselines.config = serialise('config'); baselines.seo = serialise('seo');
   } catch (e) { root.querySelector('.layout').replaceChildren(h('p', { class: 'err', style: { padding: '2rem' } }, `Could not load the site files: ${e.message}`)); return; }
 
-  try { const r = await apiFetch('ping'); api = r.ok && (await r.json()).ok === true; } catch { api = false; }
+  // Only a local dev server has the save endpoints; skipping the probe elsewhere avoids a pointless 404.
+  const local = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
+  try { const r = local ? await apiFetch('ping') : { ok: false }; api = r.ok && (await r.json()).ok === true; } catch { api = false; }
   if (api) { apiPill.className = 'pill pill--ok'; apiPill.textContent = 'Local save on'; apiPill.title = 'Edits are written straight to config.json / seoconfig.json and the site is rebuilt.'; }
 
   render();

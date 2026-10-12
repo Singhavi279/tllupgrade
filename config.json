@@ -32,8 +32,8 @@
         "muted": "#6B635A"
       },
       "fonts": {
-        "display": "'Mukta', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Bengali', 'Noto Sans Kannada', 'Noto Sans Telugu', 'Noto Sans Malayalam', 'Noto Sans Gujarati', system-ui, sans-serif",
-        "body": "'Inter', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Bengali', 'Noto Sans Kannada', 'Noto Sans Telugu', 'Noto Sans Malayalam', 'Noto Sans Gujarati', system-ui, sans-serif",
+        "display": "'Mukta', 'Mukta Fallback', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Bengali', 'Noto Sans Kannada', 'Noto Sans Telugu', 'Noto Sans Malayalam', 'Noto Sans Gujarati', system-ui, sans-serif",
+        "body": "'Inter', 'Inter Fallback', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Bengali', 'Noto Sans Kannada', 'Noto Sans Telugu', 'Noto Sans Malayalam', 'Noto Sans Gujarati', system-ui, sans-serif",
         "vernacular": {
           "hi": "'Noto Sans Devanagari'",
           "mr": "'Noto Sans Devanagari'",
@@ -44,7 +44,7 @@
           "ml": "'Noto Sans Malayalam'",
           "gu": "'Noto Sans Gujarati'"
         },
-        "accent": "'Instrument Serif', Georgia, 'Times New Roman', serif",
+        "accent": "'Instrument Serif', 'Instrument Serif Fallback', Georgia, 'Times New Roman', serif",
         "$comment": "display/body/accent are CSS font-family stacks used by the stylesheet. googleFonts is what actually gets requested from fonts.googleapis.com (scripts/build-seo.mjs builds the <link> tags from it). vernacular:true entries are subset to only the glyphs appearing in HeroCarousel.greetings, since they otherwise download 80-120KB each for scripts the page barely uses.",
         "googleFonts": [
           {

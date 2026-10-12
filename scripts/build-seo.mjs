@@ -65,7 +65,11 @@ if (sd.emitWebPageSchema) ld.push({
   ...(sd.speakableSelectors?.length ? { speakable: { '@type': 'SpeakableSpecification', cssSelector: sd.speakableSelectors } } : {}),
 });
 
-if (sd.emitEventSchema) for (const e of events) ld.push({
+// Google's Event rich result needs a start *date*; a month-only value like "2026-10" is rejected, so those events
+// stay in the page and the ItemList but get no Event block until the config carries a full YYYY-MM-DD.
+const dated = events.filter(e => /^\d{4}-\d{2}-\d{2}/.test(e.dateISO ?? ''));
+if (sd.emitEventSchema && dated.length < events.length) console.warn(`! Event schema skipped for month-only dates: ${events.filter(e => !dated.includes(e)).map(e => `${e.name} (${e.dateISO})`).join('; ')}`);
+if (sd.emitEventSchema) for (const e of dated) ld.push({
   '@context': 'https://schema.org', '@type': 'Event', name: e.name, description: e.shortDescription, startDate: e.dateISO, inLanguage: e.language,
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
   eventStatus: 'https://schema.org/EventScheduled',

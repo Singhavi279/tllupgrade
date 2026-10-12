@@ -5,7 +5,7 @@
 // GitHub Pages has no server, so the GUI falls back to downloading the edited files there.
 import { createServer } from 'node:http';
 import { gzipSync } from 'node:zlib';
-import { readFile, writeFile, mkdir, stat } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, stat, readdir, rm, rename } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { dirname, extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -44,6 +44,25 @@ const readBody = req => new Promise((ok, fail) => {
 const isLocal = req => ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(req.socket.remoteAddress);
 const sameOrigin = req => { const o = req.headers.origin; return !o || new URL(o).host === req.headers.host; };
 
+// ---- version history: the last HISTORY_KEEP states each file had before a save overwrote it ----
+// Snapshots live in .admincms-history/<file>/<UTC stamp>.json (git-ignored, never published).
+const HISTORY_KEEP = 3;
+const HISTORY_ID = /^\d{8}T\d{9}Z$/;
+const histDir = file => join(root, '.admincms-history', file.replace('.json', ''));
+const stamp = () => new Date().toISOString().replace(/[-:.]/g, '');
+async function listVersions(file) {
+  const dir = histDir(file), ids = (await readdir(dir).catch(() => [])).filter(f => f.endsWith('.json') && HISTORY_ID.test(f.slice(0, -5))).map(f => f.slice(0, -5)).sort().reverse();
+  return Promise.all(ids.map(async id => ({ id, at: `${id.slice(0, 4)}-${id.slice(4, 6)}-${id.slice(6, 8)}T${id.slice(9, 11)}:${id.slice(11, 13)}:${id.slice(13, 15)}.${id.slice(15, 18)}Z`, bytes: (await stat(join(dir, id + '.json'))).size })));
+}
+async function snapshot(file, incoming) {
+  const current = await readFile(join(root, file), 'utf8').catch(() => null);
+  if (current == null || current === incoming) return false;      // nothing changed: no new version
+  const dir = histDir(file); await mkdir(dir, { recursive: true });
+  await writeFile(join(dir, stamp() + '.json'), current);
+  for (const v of (await listVersions(file)).slice(HISTORY_KEEP)) await rm(join(dir, v.id + '.json'), { force: true });
+  return true;
+}
+
 async function adminApi(req, res, route) {
   if (!isLocal(req) || !sameOrigin(req) || req.headers['x-admincms'] !== '1') return json(res, 403, { error: 'forbidden' });
   if (route === 'ping') return json(res, 200, { ok: true });
@@ -53,9 +72,20 @@ async function adminApi(req, res, route) {
 
   if (route === 'save') {
     if (!EDITABLE.has(body.file) || body.data == null || typeof body.data !== 'object') return json(res, 400, { error: 'unknown file or empty data' });
-    await writeFile(join(root, body.file), JSON.stringify(body.data, null, 2) + '\n');
+    const text = JSON.stringify(body.data, null, 2) + '\n';
+    const versioned = await snapshot(body.file, text);
+    await writeFile(join(root, body.file) + '.tmp', text); await rename(join(root, body.file) + '.tmp', join(root, body.file));   // atomic: readers never see half a file
     const buildError = await rebuild();
-    return json(res, 200, { ok: true, file: body.file, rebuilt: !buildError, buildError });
+    return json(res, 200, { ok: true, file: body.file, versioned, rebuilt: !buildError, buildError });
+  }
+  if (route === 'history') {
+    if (!EDITABLE.has(body.file)) return json(res, 400, { error: 'unknown file' });
+    return json(res, 200, { keep: HISTORY_KEEP, versions: await listVersions(body.file) });
+  }
+  if (route === 'version') {
+    if (!EDITABLE.has(body.file) || !HISTORY_ID.test(String(body.id))) return json(res, 400, { error: 'unknown file or version' });
+    try { return json(res, 200, { id: body.id, data: JSON.parse(await readFile(join(histDir(body.file), body.id + '.json'), 'utf8')) }); }
+    catch { return json(res, 404, { error: 'version not found' }); }
   }
   if (route === 'upload') {
     const rel = normalize(String(body.path ?? '')).replace(/\\/g, '/');
