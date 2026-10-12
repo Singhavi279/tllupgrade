@@ -92,7 +92,7 @@
 
   /* ---------- Chips / tags / meta ---------- */
   .chip { display: inline-flex; align-items: center; gap: .45rem; padding: .38rem .8rem; border-radius: 999px; font: 700 .72rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; background: rgb(0 0 0 / .45); border: 1px solid rgb(255 255 255 / .28); color: #fff; }
-  .chip--upcoming::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--c-haldi); box-shadow: 0 0 0 0 var(--c-haldi); animation: ping 1.8s infinite; }
+  .chip--upcoming::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--c-haldi); }
   .tags { display: flex; flex-wrap: wrap; gap: .4rem; }
   .tags li { padding: .22rem .65rem; border: 1px solid rgb(255 255 255 / .3); border-radius: 999px; font-size: .74rem; color: rgb(255 255 255 / .88); }
   .meta { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font-size: .9rem; font-weight: 600; }
@@ -172,7 +172,7 @@
   .tick:hover { transform: translateY(-2px); background: rgb(14 11 9 / .8); }
   .tick--hl { border-color: transparent; background: linear-gradient(120deg, var(--c-brand), var(--c-saffron)); font-weight: 750; box-shadow: 0 8px 22px -10px var(--c-brand); }
   .tick--hl:hover { background: linear-gradient(120deg, var(--c-kumkum), var(--c-brand)); }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: ping 1.8s infinite; }
+  .dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
   @media (max-width: 960px) { .ticker { inset-block-start: 5.4rem; } .ticker-label { display: none; } }
 
   /* =============== HERO =============== */
@@ -201,7 +201,7 @@
   @keyframes tswap { from { opacity: 0; translate: 0 10px; } }
   .tdots { display: flex; gap: .4rem; } .tdot { width: 18px; height: 4px; padding: 0; border: 0; border-radius: 4px; background: rgb(255 255 255 / .3); cursor: pointer; transition: width .4s var(--ease), background .3s; } .tdot.on { width: 34px; background: var(--c-haldi); }
   .live { display: inline-flex; align-items: center; gap: .55rem; font: 800 .7rem/1 var(--font-body); letter-spacing: .16em; text-transform: uppercase; color: var(--c-haldi); }
-  .live i { width: 8px; height: 8px; border-radius: 50%; background: var(--c-haldi); animation: ping 1.8s infinite; }
+  .live i { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--c-haldi); }
   .ticket-name { font: 800 1.35rem/1.12 var(--font-display); letter-spacing: -.02em; }
   .ticket-meta { display: grid; gap: .35rem; padding-block: .8rem; border-block: 1px dashed rgb(255 255 255 / .35); font-size: .9rem; font-weight: 600; }
   .ticket-meta li { display: flex; align-items: center; gap: .5rem; }
@@ -443,7 +443,12 @@
 
 @layer motion {
   @keyframes mq { to { translate: -50% 0; } }
-  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgb(255 255 255 / .55); } 70%, 100% { box-shadow: 0 0 0 10px rgb(255 255 255 / 0); } }
+  /* Pulse halo: a scaled, fading copy of the dot. Animating transform/opacity stays on the compositor; the old
+     box-shadow animation repainted on the main thread every frame. */
+  .chip { position: relative; }
+  .dot::after, .live i::after, .chip--upcoming::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: inherit; opacity: 0; animation: ping 1.8s infinite; }
+  .chip--upcoming::after { inset: auto; left: .8rem; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; background: var(--c-haldi); }
+  @keyframes ping { 0% { scale: 1; opacity: .55; } 70%, 100% { scale: 3.5; opacity: 0; } }
   @keyframes kenburns { from { scale: 1; } to { scale: 1.14; } }
   @keyframes fill { to { scale: 1 1; } }
   @keyframes float { 50% { translate: 0 -10px; } }

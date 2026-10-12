@@ -302,16 +302,26 @@ async function boot() {
   const heroProps = CFG.page.sections.find(x => x.component === 'HeroCarousel')?.props;
   const navProps = CFG.page.sections.find(x => x.component === 'Navbar')?.props;
   intro(CFG.global.intro, heroProps?.logo ?? navProps?.logo ?? { src: '' }, heroProps?.greetings ?? [], vFont);
-  const frag = document.createDocumentFragment();
-  for (const s of CFG.page.sections) {
-    if (s.enabled === false) continue;
+  // Build in slices instead of one long task: the first screen (nav, ticker, hero) goes in straight away, then the
+  // rest follows one section per task. Each built section replaces its prerendered twin (same id) in place.
+  const live = CFG.page.sections.filter(s => s.enabled !== false);
+  const heroAt = live.findIndex(s => s.component === 'HeroCarousel');
+  const old = new Map([...app.children].map(e => [e.id, e]));
+  let last = null;
+  const mountSection = s => {
     const fn = Components[s.component];
-    if (!fn) { console.warn('[TLL] No component registered for', s.component); continue; }
-    try { frag.append(fn(s)); } catch (e) { console.error(`[TLL] ${s.component} failed`, e); }
-  }
-  app.replaceChildren(frag);
+    if (!fn) return console.warn('[TLL] No component registered for', s.component);
+    let node; try { node = fn(s); } catch (e) { return console.error(`[TLL] ${s.component} failed`, e); }
+    const twin = old.get(s.id);
+    if (twin) { twin.replaceWith(node); old.delete(s.id); } else if (last) last.after(node); else app.prepend(node);   // new section: keep config order
+    last = node;
+  };
+  const tick = () => new Promise(r => (globalThis.scheduler?.yield ? scheduler.yield().then(r) : setTimeout(r)));
+  live.slice(0, Math.max(heroAt + 1, 1)).forEach(mountSection); flushMount();
+  for (const s of live.slice(Math.max(heroAt + 1, 1))) { await tick(); mountSection(s); flushMount(); }
+  old.forEach(e => e.remove());                                // prerendered sections the config no longer has
   app.after(h('a', { class: 'to-top', href: '#top', 'aria-label': t('backToTop') }, svg('svg', { class: 'to-top-ring', viewBox: '0 0 52 52', 'aria-hidden': 'true' }, svg('circle', { cx: 26, cy: 26, r: 24, pathLength: 1 })), icon('arrow', 20)));
-  flushMount(); ambient(); initSpot();
+  ambient(); initSpot();
   performance.mark('tll-mounted');
   if (!CSS.supports('animation-timeline: view()')) {      // graceful fallback without scroll-driven animations
     document.documentElement.classList.add('no-sda');

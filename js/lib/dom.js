@@ -37,7 +37,7 @@ export const litWords = text => {
 
 /** Procedural rangoli / mandala: concentric rings of petals + dots. Stroke uses currentColor. */
 export function rangoli({ rings = 5, petals = 10, className = '' } = {}) {
-  const s = svg('svg', { class: `rangoli ${className}`.trim(), viewBox: '-320 -320 640 640', 'aria-hidden': 'true', focusable: 'false' });
+  const s = svg('svg', { class: `rangoli ${className}`.trim(), viewBox: '-320 -320 640 640', 'aria-hidden': 'true', focusable: 'false', 'data-ambient': '' });
   for (let k = 0; k < rings; k++) {
     const ri = 28 + k * 54, ro = ri + 64, n = petals + k * 4, hw = (Math.PI * ri / n) * 1.3 + 7, len = ro - ri;
     const d = `M0 ${-ri}C${hw} ${-ri - len * .25} ${hw * .8} ${-ro + len * .25} 0 ${-ro}C${-hw * .8} ${-ro + len * .25} ${-hw} ${-ri - len * .25} 0 ${-ri}Z`;
