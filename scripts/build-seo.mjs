@@ -70,16 +70,16 @@ if (sd.emitWebPageSchema) ld.push({
 const dated = events.filter(e => /^\d{4}-\d{2}-\d{2}/.test(e.dateISO ?? ''));
 if (sd.emitEventSchema && dated.length < events.length) console.warn(`! Event schema skipped for month-only dates: ${events.filter(e => !dated.includes(e)).map(e => `${e.name} (${e.dateISO})`).join('; ')}`);
 if (sd.emitEventSchema) for (const e of dated) ld.push({
-  '@context': 'https://schema.org', '@type': 'Event', name: e.name, description: e.shortDescription, startDate: e.dateISO, inLanguage: e.language,
+  '@context': 'https://schema.org', '@type': 'Event', name: e.name, description: e.shortDescription, startDate: e.dateISO, ...(e.endDateISO ? { endDate: e.endDateISO } : {}), inLanguage: e.language,
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
   eventStatus: 'https://schema.org/EventScheduled',
-  location: { '@type': 'Place', name: e.venue, address: { '@type': 'PostalAddress', addressLocality: e.venue, addressCountry: 'IN' } }, url: evUrl(e),
+  location: { '@type': 'Place', name: e.venue, address: { '@type': 'PostalAddress', addressLocality: e.city ?? e.venue, addressCountry: 'IN' } }, url: evUrl(e),
   organizer: { '@type': 'Organization', name: seo.site.name, url: base },
   ...(e.image?.src ? { image: abs(e.image.src) } : {}) });
 
 // One ItemList ties the individual Events together so the calendar is understood as a portfolio.
 if (sd.emitItemListSchema && events.length) ld.push({
-  '@context': 'https://schema.org', '@type': 'ItemList', name: propsOf('EventGrid')?.heading?.replace(/\*/g, '') ?? 'Events',
+  '@context': 'https://schema.org', '@type': 'ItemList', name: sd.itemListName ?? propsOf('EventGrid')?.heading?.replace(/\*/g, '') ?? 'Events',
   itemListOrder: 'https://schema.org/ItemListOrderAscending', numberOfItems: events.length,
   itemListElement: events.map((e, i) => ({ '@type': 'ListItem', position: i + 1, name: e.name, url: evUrl(e) })) });
 
@@ -118,7 +118,7 @@ if (perf.inlineCss) {
   const raw = (await readFile(join(root, 'css/styles.css'), 'utf8')).replace(/<\/style/gi, '<\\/style');
   // Conservative minify: quoted strings are preserved verbatim, everything between them is squeezed.
   const css = raw.split(/('[^']*'|"[^"]*")/).map((part, i) => (i % 2 ? part
-    : part.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').replace(/\s*([{}:;,>])\s*/g, '$1').replace(/;}/g, '}'))).join('');
+    : part.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').replace(/\s*([{};,>])\s*/g, '$1').replace(/:\s+/g, ':').replace(/;}/g, '}'))).join('');
   headLines.push(`<style>${css}</style>`);
 } else {
   headLines.push(`<link rel="stylesheet" href="css/styles.css">`);

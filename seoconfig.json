@@ -6,9 +6,7 @@
     "name": "Times Internet Languages Live",
     "publisher": "Times Internet",
     "defaultLocale": "en_IN",
-    "alternateLocales": [
-      "hi_IN"
-    ],
+    "alternateLocales": [],
     "themeColor": "#f7f5ef",
     "googleSiteVerification": "JYn_NFaOSK9Z4vPZe4n6l-aLTP_zoMrbmOEaUKy0l7o",
     "favicon": "assets/brand/icon-64.png",
@@ -22,23 +20,25 @@
       "Times Internet Languages Live",
       "Times Internet events",
       "India events 2026",
+      "India events 2027",
       "vernacular events India",
       "Hindi events",
-      "career counselling India",
-      "study abroad conclave",
-      "maternity expo India",
-      "comedy talent hunt India",
-      "brand sponsorship India",
-      "education events Delhi Mumbai",
-      "lifestyle & entertainment events India"
+      "Nivesh Baithak investor education",
+      "Times Future of Maternity",
+      "MT Swasthya Sangam",
+      "Grand Shaam-e-Awadh Lucknow",
+      "Astro Mahasangam",
+      "Times Study Abroad Conclave",
+      "VK Real Estate Awards",
+      "brand sponsorship India"
     ],
     "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
     "og": {
       "type": "website",
-      "image": "https://images.pexels.com/photos/8199169/pexels-photo-8199169.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "imageAlt": "Times Internet Languages Live - India's Premium Event Portfolio",
+      "image": "https://timeslanguages.in/assets/og/home.jpg",
+      "imageAlt": "Packed auditorium at a Times Internet Languages Live conclave",
       "imageWidth": 1200,
-      "imageHeight": 887,
+      "imageHeight": 630,
       "description": "A premium portfolio of education, healthcare, lifestyle & entertainment and partnership-led events from Times Internet - built for India's vernacular-first audiences.",
       "imageType": "image/jpeg"
     },
@@ -59,7 +59,7 @@
       "path": "/nivesh-baithak/surat",
       "changefreq": "weekly",
       "priority": 0.9,
-      "lastmod": "2026-10-11"
+      "lastmod": "2026-11-11"
     },
     {
       "path": "/nivesh-baithak/delhi",
@@ -68,16 +68,22 @@
       "lastmod": "2026-10-11"
     },
     {
-      "path": "/msme",
+      "path": "/mt-health",
       "changefreq": "weekly",
       "priority": 0.9,
-      "lastmod": "2026-10-11"
+      "lastmod": "2026-11-11"
+    },
+    {
+      "path": "/events/grand-shaam-e-awadh",
+      "changefreq": "weekly",
+      "priority": 0.9,
+      "lastmod": "2026-11-11"
     },
     {
       "path": "/tfm-blr",
-      "changefreq": "weekly",
-      "priority": 0.9,
-      "lastmod": "2026-10-11"
+      "changefreq": "monthly",
+      "priority": 0.6,
+      "lastmod": "2026-11-11"
     },
     {
       "path": "/vkrealestate",
@@ -202,7 +208,7 @@
       "Audiences: brands and policymakers who sponsor or partner on regional event IPs; everyday Indians who attend, learn and register for summits.",
       "Cities: Delhi, Mumbai, Pune, Jaipur, Bhopal, Patna, Lucknow, Chennai, Ahmedabad, Hyderabad, Bengaluru, Surat.",
       "Languages: Hindi, English, Hinglish and regional languages.",
-      "Partnerships: write to deepika.pawar@timesinternet.in or use https://timeslanguages.in/#partners"
+      "Partnerships: write to gaurav.vats@timesinternet.in or use https://timeslanguages.in/#partners"
     ],
     "sections": [
       {
@@ -252,7 +258,7 @@
       "@type": "Organization",
       "name": "Times Internet Languages Live",
       "url": "https://timeslanguages.in",
-      "logo": "https://timeslanguages.in/assets/brand/langlive.png",
+      "logo": "https://timeslanguages.in/assets/timeslang/assets/langlive.png",
       "sameAs": [
         "https://www.timesinternet.in/",
         "https://www.linkedin.com/company/times-languages-live/",
@@ -274,7 +280,7 @@
         {
           "@type": "ContactPoint",
           "contactType": "sales",
-          "email": "deepika.pawar@timesinternet.in",
+          "email": "gaurav.vats@timesinternet.in",
           "areaServed": "IN",
           "availableLanguage": [
             "English",
@@ -294,7 +300,8 @@
       ".hero h1",
       ".hero .lede",
       ".about-body p"
-    ]
+    ],
+    "itemListName": "Times Internet Languages Live events - upcoming and past"
   },
   "performance": {
     "$comment": "Critical-path settings applied by scripts/build-seo.mjs. inlineCss removes the render-blocking stylesheet request; preloadLcpImage preloads the first hero slide; prerender writes static markup into #app so first paint does not wait on JS.",

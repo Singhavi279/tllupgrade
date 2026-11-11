@@ -250,13 +250,6 @@
           "label": "Trending Events:",
           "items": [
             {
-              "text": "TFM Bengaluru",
-              "href": "https://timeslanguages.in/tfm-blr",
-              "external": true,
-              "appendUtm": true,
-              "highlight": true
-            },
-            {
               "text": "Nivesh Baithak: Surat Edition",
               "href": "https://timeslanguages.in/nivesh-baithak/surat",
               "external": true,
@@ -264,8 +257,15 @@
               "highlight": true
             },
             {
-              "text": "India MSME Dialogue",
-              "href": "https://timeslanguages.in/msme",
+              "text": "MT Swasthya Sangam",
+              "href": "https://timeslanguages.in/mt-health",
+              "external": true,
+              "appendUtm": true,
+              "highlight": false
+            },
+            {
+              "text": "Grand Shaam-e-Awadh",
+              "href": "https://timeslanguages.in/events/grand-shaam-e-awadh",
               "external": true,
               "appendUtm": true,
               "highlight": false
@@ -371,7 +371,7 @@
                 "src": "assets/hero/gathering-02.webp",
                 "alt": "Regional Industry Leaders & Tech Conclave",
                 "watermark": {
-                  "eventName": "India MSME Dialogue & Conclave",
+                  "eventName": "Regional Leaders Conclave",
                   "dateText": "Regional Leadership Summit"
                 },
                 "srcset": "assets/hero/gathering-02-sm.webp 960w, assets/hero/gathering-02.webp 1600w",
@@ -498,31 +498,24 @@
             "From focused gatherings to large-format summits, we bring together policymakers, industry leaders, and communities to exchange practical insight and create direct, high-value connections both on-ground and online."
           ],
           "stats": {
-            "$comment": "PLACEHOLDER figures. Indicative scale only - replace each value with a verified number before launch.",
             "items": [
               {
-                "value": 25,
+                "value": 20,
                 "suffix": "+",
-                "label": "Event editions",
-                "sub": "Delivered across 6 flagship IPs"
+                "label": "Events",
+                "sub": "Across education, healthcare and lifestyle"
               },
               {
-                "value": 2.4,
+                "value": 150,
+                "suffix": "+",
+                "label": "Speakers & dignitaries",
+                "sub": "Leaders who have shared our stages"
+              },
+              {
+                "value": 1,
                 "suffix": "L+",
-                "label": "People connected",
-                "sub": "On-ground footfall and live viewership"
-              },
-              {
-                "value": 180,
-                "suffix": "+",
-                "label": "Speakers on stage",
-                "sub": "Ministers, regulators and industry leaders"
-              },
-              {
-                "value": 11,
-                "suffix": "",
-                "label": "Indian languages",
-                "sub": "Across 20+ cities and every region"
+                "label": "Monthly active users",
+                "sub": "Engaged vernacular audiences"
               }
             ]
           }
@@ -551,42 +544,6 @@
           ],
           "cards": [
             {
-              "id": "tfm-bengaluru",
-              "status": "upcoming",
-              "audience": "B2C",
-              "language": "en",
-              "category": "Healthcare / Maternity",
-              "name": "Times Future of Maternity: South Edition 2026",
-              "shortDescription": "Meet the doctors, hospitals, specialists, innovators, and trusted brands helping families across South India make informed choices.",
-              "dateText": "October 2026",
-              "dateISO": "2026-10",
-              "venue": "Bengaluru",
-              "tags": [
-                "Maternity Care",
-                "Pregnancy",
-                "Fertility",
-                "Healthcare Summit",
-                "Expo"
-              ],
-              "cta": {
-                "text": "Explore more →",
-                "action": {
-                  "type": "url",
-                  "url": "https://timeslanguages.in/tfm-blr",
-                  "target": "_blank",
-                  "appendUtm": true
-                }
-              },
-              "image": {
-                "src": "https://static.langimg.com/photo/133531382.cms",
-                "alt": "Times Future of Maternity South Edition 2026 in Bengaluru",
-                "fallback": {
-                  "bgColor": "#A93622",
-                  "textColor": "#FFFFFF"
-                }
-              }
-            },
-            {
               "id": "nivesh-baithak-surat",
               "status": "upcoming",
               "audience": "B2C",
@@ -594,9 +551,9 @@
               "category": "Finance / Investor Education",
               "name": "Nivesh Baithak: Surat Edition",
               "shortDescription": "A Hindi-first investor education summit for everyday investors, learners, and wealth creators.",
-              "dateText": "October 2026",
-              "dateISO": "2026-10",
-              "venue": "Surat",
+              "dateText": "14 Nov, 2026",
+              "dateISO": "2026-11-14",
+              "venue": "Hilton Garden Inn, Surat",
               "tags": [
                 "Investor Education",
                 "Hindi-first",
@@ -620,40 +577,104 @@
                   "bgColor": "#5B3F9B",
                   "textColor": "#FFFFFF"
                 }
-              }
+              },
+              "city": "Surat"
             },
             {
-              "id": "india-msme-dialogue",
+              "id": "mt-health",
               "status": "upcoming",
-              "audience": "B2B",
-              "language": "hi",
-              "category": "MSME",
-              "name": "India MSME Dialogue: Atmanirbhar Udyam | Atmanirbhar Bharat",
-              "shortDescription": "A multi-state, multi-language platform uniting regional MSMEs.",
-              "dateText": "September 2026",
-              "dateISO": "2026-09",
-              "venue": "Uttar Pradesh",
-              "tags": [
-                "MSME Growth",
-                "Clusters",
-                "Atmanirbhar",
-                "Entrepreneurs",
-                "Small Business"
-              ],
+              "audience": "B2C",
+              "language": "en",
+              "category": "Healthcare",
+              "name": "MT Swasthya Sangam",
+              "shortDescription": "A healthcare event from Times Internet Languages Live.",
+              "dateText": "Jan 2027",
+              "venue": "Mumbai",
+              "tags": [],
               "cta": {
                 "text": "Explore more →",
                 "action": {
                   "type": "url",
-                  "url": "https://timeslanguages.in/msme",
+                  "url": "https://timeslanguages.in/mt-health",
                   "target": "_blank",
                   "appendUtm": true
                 }
               },
               "image": {
-                "src": "https://images.pexels.com/photos/31321004/pexels-photo-31321004.jpeg",
-                "alt": "India MSME Dialogue",
+                "src": "https://static.langimg.com/photo/134815820.cms",
+                "alt": "MT Swasthya Sangam",
                 "fallback": {
-                  "bgColor": "#00796B",
+                  "bgColor": "#A93622",
+                  "textColor": "#FFFFFF"
+                }
+              },
+              "dateISO": "2027-01",
+              "city": "Mumbai"
+            },
+            {
+              "id": "grand-shaam-e-awadh",
+              "status": "upcoming",
+              "audience": "B2C",
+              "language": "hi",
+              "category": "Entertainment & Lifestyle",
+              "name": "Grand Shaam-e-Awadh",
+              "shortDescription": "A grand cultural evening celebrating the heritage and arts of Awadh.",
+              "dateText": "9–10 Jan, 2027",
+              "venue": "Ambedkar Memorial Park, Lucknow",
+              "tags": [],
+              "cta": {
+                "text": "Explore more →",
+                "action": {
+                  "type": "url",
+                  "url": "https://timeslanguages.in/events/grand-shaam-e-awadh",
+                  "target": "_blank",
+                  "appendUtm": true
+                }
+              },
+              "image": {
+                "src": "https://static.langimg.com/photo/134892164.cms",
+                "alt": "Grand Shaam-e-Awadh",
+                "fallback": {
+                  "bgColor": "#B3003B",
+                  "textColor": "#FFFFFF"
+                }
+              },
+              "dateISO": "2027-01-09",
+              "city": "Lucknow",
+              "endDateISO": "2027-01-10"
+            },
+            {
+              "id": "tfm-bengaluru",
+              "status": "past",
+              "audience": "B2C",
+              "language": "en",
+              "category": "Healthcare / Maternity",
+              "name": "Times Future of Maternity: South Edition 2026",
+              "shortDescription": "Meet the doctors, hospitals, specialists, innovators, and trusted brands helping families across South India make informed choices.",
+              "dateText": "31 Oct, 2026",
+              "dateISO": "2026-10-31",
+              "venue": "Bengaluru",
+              "tags": [
+                "Maternity Care",
+                "Pregnancy",
+                "Fertility",
+                "Healthcare Summit",
+                "Expo"
+              ],
+              "cta": {
+                "text": "Explore more →",
+                "action": {
+                  "type": "url",
+                  "url": "https://timeslanguages.in/tfm-blr",
+                  "target": "_blank",
+                  "appendUtm": true
+                }
+              },
+              "image": {
+                "src": "https://static.langimg.com/photo/133531382.cms",
+                "alt": "Times Future of Maternity South Edition 2026 in Bengaluru",
+                "fallback": {
+                  "bgColor": "#A93622",
                   "textColor": "#FFFFFF"
                 }
               }
@@ -845,7 +866,7 @@
       {
         "id": "speakers",
         "component": "PastSpeakers",
-        "enabled": true,
+        "enabled": false,
         "props": {
           "$comment": "PLACEHOLDER people and photos (generated illustrations). Replace names, designations, organisations and photo paths with real past speakers.",
           "heading": "Voices That Have *Graced* Our Stage",
@@ -937,7 +958,7 @@
       {
         "id": "brands",
         "component": "BrandWall",
-        "enabled": true,
+        "enabled": false,
         "props": {
           "$comment": "PLACEHOLDER logos (generated wordmarks of fictional brands). Replace with real partner logos; the `order` field controls display order.",
           "heading": "Brands That *Trust* Us",
@@ -1023,12 +1044,6 @@
               "number": "03",
               "heading": "Entertainment & Lifestyle",
               "description": "Spotlighting creator discovery, Hindi-first culture, talent stages, and city rounds to ignite your passion."
-            },
-            {
-              "order": 4,
-              "number": "04",
-              "heading": "MSME",
-              "description": "Forums for policy dialogue, business solutions, market access, and scalability for small businesses."
             }
           ]
         }
@@ -1102,7 +1117,7 @@
             {
               "order": 4,
               "question": "How can brands partner with Times Internet Languages Live?",
-              "answer": "We offer tailored formats - from speaking slots and title sponsorships to integrated regional campaigns. Write to deepika.pawar@timesinternet.in for the partnership deck."
+              "answer": "We offer tailored formats - from speaking slots and title sponsorships to integrated regional campaigns. Write to gaurav.vats@timesinternet.in for the partnership deck."
             },
             {
               "order": 5,
@@ -1145,13 +1160,6 @@
               "icon": "chat"
             },
             {
-              "category": "Partnership",
-              "name": "Deepika Pawar",
-              "phone": "+91 9971129087",
-              "email": "deepika.pawar@timesinternet.in",
-              "icon": "handshake"
-            },
-            {
               "category": "Award Nominations",
               "name": "Sagun Kumari",
               "phone": "+91 9304412377",
@@ -1164,6 +1172,13 @@
               "phone": "+91 7838788554",
               "email": "simran1@timesinternet.in",
               "icon": "mic"
+            },
+            {
+              "category": "Partnerships",
+              "name": "Deepika Pawar",
+              "phone": "+91 9971129087",
+              "email": "deepika.pawar@timesinternet.in",
+              "icon": "handshake"
             },
             {
               "category": "Sponsorships",
@@ -1222,23 +1237,22 @@
           ],
           "tables": [
             {
-              "heading": "Domains",
+              "heading": "Trending Events",
               "items": [
                 {
-                  "label": "Education",
-                  "href": "#events"
+                  "label": "Nivesh Baithak: Surat Edition",
+                  "href": "https://timeslanguages.in/nivesh-baithak/surat?utm_source=timeslanguages&utm_medium=homepage&utm_campaign=languages_live_events",
+                  "external": true
                 },
                 {
-                  "label": "Healthcare",
-                  "href": "#events"
+                  "label": "MT Swasthya Sangam",
+                  "href": "https://timeslanguages.in/mt-health?utm_source=timeslanguages&utm_medium=homepage&utm_campaign=languages_live_events",
+                  "external": true
                 },
                 {
-                  "label": "Entertainment & Lifestyle",
-                  "href": "#events"
-                },
-                {
-                  "label": "MSME",
-                  "href": "#events"
+                  "label": "Grand Shaam-e-Awadh",
+                  "href": "https://timeslanguages.in/events/grand-shaam-e-awadh?utm_source=timeslanguages&utm_medium=homepage&utm_campaign=languages_live_events",
+                  "external": true
                 }
               ]
             },
@@ -1252,10 +1266,6 @@
                 {
                   "label": "FAQs",
                   "href": "#faq"
-                },
-                {
-                  "label": "Contact Sales",
-                  "href": "mailto:gaurav.vats@timesinternet.in"
                 },
                 {
                   "label": "Times Internet",
